@@ -1,23 +1,19 @@
 import { useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCabin, updateCabin } from "../../services/apiCapbins";
+import { createCabin } from "../../services/apiCapbins";
 import toast from "react-hot-toast";
 import FormError from "../../ui/FormError";
 import FormLabel from "../../ui/FormLabel";
 import FormRow from "../../ui/FormRow";
 
-function CreateCabinForm({ cabinToEdit={}}) {
+function CreateCabinForm({ cabinToEdit}) {
+  console.log(cabinToEdit)
   const queryClient = useQueryClient();
-  const { id: editCabinId, ...editCabinValues } = cabinToEdit;
-  const isEditCabinSession = Boolean(editCabinId);
-
-  const { register, handleSubmit, reset, getValues, formState } = useForm({
-    defaultValues: isEditCabinSession? editCabinValues:{},
-  });
+  const { register, handleSubmit, reset, getValues, formState } = useForm();
   const { errors } = formState;
-  //Mutation for creating Cabin
-  const {isPending:isPendingCreatingCabins,mutate:createNewCabin} = useMutation({
+
+  const {isPending:isPendingCreatingCabins,mutate} = useMutation({
     mutationFn: newCabin => createCabin(newCabin),
     onSuccess: () => {
       toast.success('New Cabin is successfully Created');
@@ -30,32 +26,13 @@ function CreateCabinForm({ cabinToEdit={}}) {
       toast.error(err.message)
     }
   });
-
-  //Mutation for updating Cabin
- const{ isPending:isPendingUpdatingCabing,mutate:UpdatingCabin }= useMutation({
-    mutationFn: ({ newCabinData, id }) => updateCabin(newCabinData, id),
-    onSuccess: () => {
-      toast.success('Cabin is Successfully Updated');
-      queryClient.invalidateQueries({
-        queryKey: ['cabins'],
-      });
-      reset();
-     },
-    onError:(err)=>{toast.error(err.message)}
-  })
-
+  
   function onSubmit(data) {
-    console.log('Submitting')
-    createNewCabin({...data,image:data.image[0]});
+    console.log('form Submitting')
+    mutate({...data,image:data.image[0]});
   }
   function onError(errors) {
     console.log(errors)
-  }
-  function onUpdate(data) {
-    const image = typeof data.image === 'string' ? data.image : data.image[0];
-
-    console.log('updating');
-    UpdatingCabin({newCabinData:{...data,image},id:editCabinId})
   }
   return (
     <form className="mx-8 py-8" onSubmit={handleSubmit(onSubmit, onError)}>
@@ -157,7 +134,7 @@ function CreateCabinForm({ cabinToEdit={}}) {
           className="input file:bg-blue-600 file:text-blue-50 file:py-4 file:px-3 file:rounded-lg "
           disabled={isPendingCreatingCabins}
           {...register('image', {
-            required: isEditCabinSession? false: 'This Field is Required'
+            required:'This Field is Required'
           })}
         />
         {
@@ -170,13 +147,10 @@ function CreateCabinForm({ cabinToEdit={}}) {
         <Button
           type='submit'
           category='primary'
-          onClick={isEditCabinSession? handleSubmit(onUpdate): handleSubmit(onSubmit,onError)}
+          onClick={handleSubmit(onSubmit,onError)}
           disabled={isPendingCreatingCabins}
         >
-          {
-            isEditCabinSession? "Edit Cabin":" Create New Cabin"
-          }
-          
+          Add Cabin
         </Button>
       </div>
     </form>
