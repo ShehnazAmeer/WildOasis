@@ -19,7 +19,7 @@ function Cabins() {
          <CabinTable/>
       </section>
       <section className=" flex flex-col justify-between ">
-        <Button category='primary' onClick={()=> setShowForm(show => !show)  }>Add New Cabin</Button>
+        <Button category='primary' styles="max-md:text-lg max-md:p-2 " onClick={()=> setShowForm(show => !show)  }>Add New Cabin</Button>
       
         {
           showForm && <CreateCabinForm/>

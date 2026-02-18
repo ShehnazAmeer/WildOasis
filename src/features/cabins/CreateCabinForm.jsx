@@ -1,62 +1,48 @@
 import { useForm } from "react-hook-form";
+import useCreateCabin from "./useCreateCabin";
+import useUpdateCabin from "./useUpdateCabin";
+
 import Button from "../../ui/Button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCabin, updateCabin } from "../../services/apiCapbins";
-import toast from "react-hot-toast";
 import FormError from "../../ui/FormError";
 import FormLabel from "../../ui/FormLabel";
 import FormRow from "../../ui/FormRow";
 
 function CreateCabinForm({ cabinToEdit={}}) {
-  const queryClient = useQueryClient();
+  const [isCreatingCabin, setCreateCabin] = useCreateCabin();
+  const [isUpdateCabin, setUpdateCabin] = useUpdateCabin();
+
   const { id: editCabinId, ...editCabinValues } = cabinToEdit;
   const isEditCabinSession = Boolean(editCabinId);
 
-  const { register, handleSubmit, reset, getValues, formState } = useForm({
+  const { register, handleSubmit,getValues, formState } = useForm({
     defaultValues: isEditCabinSession? editCabinValues:{},
   });
   const { errors } = formState;
-  //Mutation for creating Cabin
-  const {isPending:isPendingCreatingCabins,mutate:createNewCabin} = useMutation({
-    mutationFn: newCabin => createCabin(newCabin),
-    onSuccess: () => {
-      toast.success('New Cabin is successfully Created');
-      queryClient.invalidateQueries({
-        queryKey: ['cabins']
-      });
-      reset()
-    },
-    onError: (err) => {
-      toast.error(err.message)
-    }
-  });
 
-  //Mutation for updating Cabin
- const{ isPending:isPendingUpdatingCabing,mutate:UpdatingCabin }= useMutation({
-    mutationFn: ({ newCabinData, id }) => updateCabin(newCabinData, id),
-    onSuccess: () => {
-      toast.success('Cabin is Successfully Updated');
-      queryClient.invalidateQueries({
-        queryKey: ['cabins'],
-      });
-      reset();
-     },
-    onError:(err)=>{toast.error(err.message)}
-  })
+  const isWorking = isCreatingCabin || isUpdateCabin;
 
   function onSubmit(data) {
-    console.log('Submitting')
-    createNewCabin({...data,image:data.image[0]});
+    console.log('called')
+    const image = typeof data.image === 'string' ? data.image : data.image[0];
+
+    if (isEditCabinSession) {
+      setUpdateCabin({ newCabinData: { ...data, image }, id: editCabinId });
+      return;
+    }
+      
+
+    setCreateCabin({...data,image:data.image[0]});
   }
+  
   function onError(errors) {
     console.log(errors)
   }
-  function onUpdate(data) {
-    const image = typeof data.image === 'string' ? data.image : data.image[0];
+  // function onUpdate(data) {
+  //   const image = typeof data.image === 'string' ? data.image : data.image[0];
 
-    console.log('updating');
-    UpdatingCabin({newCabinData:{...data,image},id:editCabinId})
-  }
+  //   console.log('updating');
+  //   UpdatingCabin({newCabinData:{...data,image},id:editCabinId})
+  // }
   return (
     <form className="mx-8 py-8" onSubmit={handleSubmit(onSubmit, onError)}>
       <FormRow>
@@ -65,7 +51,7 @@ function CreateCabinForm({ cabinToEdit={}}) {
           className="input"
           id='name'
           type='text'
-          disabled={isPendingCreatingCabins}
+          disabled={isWorking}
           placeholder="FullName"
           {...register('name', {
             required: 'This Field is Required',
@@ -82,7 +68,7 @@ function CreateCabinForm({ cabinToEdit={}}) {
           placeholder="Maximum Capacity"
           id='maxCapacity'
           type="number"
-          disabled={isPendingCreatingCabins}
+          disabled={isWorking}
           {...register('maxCapacity', {
             required: 'This Field is Required',
             min: {
@@ -102,7 +88,7 @@ function CreateCabinForm({ cabinToEdit={}}) {
           id='regularPrice'
           placeholder="Regular Price"
           type="number"
-          disabled={isPendingCreatingCabins}
+          disabled={isWorking}
           {...register('regularPrice', {
             required: 'This Field is Required',
             min: {
@@ -123,7 +109,7 @@ function CreateCabinForm({ cabinToEdit={}}) {
           placeholder="Discount"
           type="number"
           defaultValue={0}
-          disabled={isPendingCreatingCabins}
+          disabled={isWorking}
         
           {...register('discount', {
             required: 'This Field is Required',
@@ -140,7 +126,7 @@ function CreateCabinForm({ cabinToEdit={}}) {
           className="textarea"
           placeholder="Descripiton"
           id='description'
-          disabled={isPendingCreatingCabins}
+          disabled={isWorking}
           {...register('description', {
             required:'This Field is Required'
           })}
@@ -155,7 +141,7 @@ function CreateCabinForm({ cabinToEdit={}}) {
           id='image'
           type="file"
           className="input file:bg-blue-600 file:text-blue-50 file:py-4 file:px-3 file:rounded-lg "
-          disabled={isPendingCreatingCabins}
+          disabled={isWorking}
           {...register('image', {
             required: isEditCabinSession? false: 'This Field is Required'
           })}
@@ -170,8 +156,8 @@ function CreateCabinForm({ cabinToEdit={}}) {
         <Button
           type='submit'
           category='primary'
-          onClick={isEditCabinSession? handleSubmit(onUpdate): handleSubmit(onSubmit,onError)}
-          disabled={isPendingCreatingCabins}
+          onClick={handleSubmit(onSubmit,onError)}
+          disabled={isWorking}
         >
           {
             isEditCabinSession? "Edit Cabin":" Create New Cabin"
