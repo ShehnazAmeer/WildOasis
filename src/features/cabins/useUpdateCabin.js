@@ -1,10 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useForm } from "react-hook-form";
 import { createEditCabin } from "../../services/apiCapbins";
 
 export default function useUpdateCabin() {
-    const { reset } = useForm();
     const queryClient = useQueryClient();
 
     const { isPending: isUpdateCabin, mutate: setUpdateCabin } = useMutation({
@@ -14,7 +12,6 @@ export default function useUpdateCabin() {
             queryClient.invalidateQueries({
                 queryKey: ['cabins'],
             });
-            reset();
         },
         onError: (err) => { toast.error(err.message) }
     });

@@ -34,7 +34,7 @@ export default function CabinRow({ cabin }) {
     <>
       <section
         role="row"
-        className=" grid grid-cols-[0.6fr_1.8fr_2.2fr_1fr_1fr_1fr_1fr] grid-flow-row gap-x-5 items-center p-3 border-b capitalize border-stone-300 space-y-3  max-md:w-auto bg-stone-100 max-md:text-lg max-sm:text-xs"
+        className=" grid grid-cols-[0.6fr_1.8fr_2.2fr_1fr_1fr_1fr_1fr] grid-flow-row gap-x-5 items-center p-3 border-b capitalize border-stone-300 space-y-3  max-md:w-auto bg-stone-100 max-md:text-lg max-sm:text-xs border"
       >
         <div className="mx-auto my-0">
           <img

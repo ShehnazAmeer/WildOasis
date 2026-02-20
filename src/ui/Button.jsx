@@ -3,7 +3,8 @@ export default function Button({category, children, type='button',onClick,disabl
 
   const style = {
     primary: base + 'bg-blue-600 focus:ring-blue-600 hover:bg-blue-400',
-    secondary:base+'bg-stone-600 focus:ring-stone-600 hover:bg-stone-400'
+    secondary: base + 'bg-stone-600 focus:ring-stone-600 hover:bg-stone-400',
+    close:'bg-none text-4xl translate-x-3 transition-all cursor-pointer'
   }
 
   

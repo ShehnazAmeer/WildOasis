@@ -6,32 +6,46 @@ import Button from "../../ui/Button";
 import FormError from "../../ui/FormError";
 import FormLabel from "../../ui/FormLabel";
 import FormRow from "../../ui/FormRow";
+import Form from "../../ui/Form";
 
-function CreateCabinForm({ cabinToEdit={}}) {
+function CreateCabinForm({ cabinToEdit={},onCloseModal}) {
   const [isCreatingCabin, setCreateCabin] = useCreateCabin();
   const [isUpdateCabin, setUpdateCabin] = useUpdateCabin();
+  const isWorking = isCreatingCabin || isUpdateCabin;
 
   const { id: editCabinId, ...editCabinValues } = cabinToEdit;
   const isEditCabinSession = Boolean(editCabinId);
 
-  const { register, handleSubmit,getValues, formState } = useForm({
+  const { register, handleSubmit,getValues, formState,reset } = useForm({
     defaultValues: isEditCabinSession? editCabinValues:{},
   });
+
   const { errors } = formState;
 
-  const isWorking = isCreatingCabin || isUpdateCabin;
-
   function onSubmit(data) {
-    console.log('called')
     const image = typeof data.image === 'string' ? data.image : data.image[0];
 
     if (isEditCabinSession) {
-      setUpdateCabin({ newCabinData: { ...data, image }, id: editCabinId });
-      return;
+        setUpdateCabin(
+          { newCabinData: { ...data, image }, id: editCabinId },
+          {
+          onSuccess: (data) => {
+              reset();
+              onCloseModal?.();
+          },
+        }
+      )
     }
-      
-
-    setCreateCabin({...data,image:data.image[0]});
+    else
+      setCreateCabin(
+        { ...data, image: image },
+        {
+          onSuccess: (data) => {
+            reset();
+            onCloseModal?.();
+          },
+        }
+      );
   }
   
   function onError(errors) {
@@ -44,7 +58,7 @@ function CreateCabinForm({ cabinToEdit={}}) {
   //   UpdatingCabin({newCabinData:{...data,image},id:editCabinId})
   // }
   return (
-    <form className="mx-8 py-8" onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form onSubmit={handleSubmit(onSubmit,onError)} categoary={onCloseModal?'modal':'regular'}>
       <FormRow>
         <FormLabel htmlFor='name'>Cabin Name</FormLabel>
          <input
@@ -113,7 +127,8 @@ function CreateCabinForm({ cabinToEdit={}}) {
         
           {...register('discount', {
             required: 'This Field is Required',
-            validate:(value)=>value<=getValues()?.regularPrice||' Discount Should be less than regular price'
+            validate: (value) =>
+              value <= getValues().regularPrice || ' Discount Should be less than regular price'
           })}
         />
         {
@@ -150,9 +165,8 @@ function CreateCabinForm({ cabinToEdit={}}) {
           errors?.image?.message && <FormError> {errors?.image?.message} </FormError>
         }
       </FormRow>
-
       <div className="text-right " >
-        <Button type="reset" category='secondary' >Cancel</Button>
+        <Button type="reset" category='secondary' onClick={()=>onCloseModal?.()} >Cancel</Button>
         <Button
           type='submit'
           category='primary'
@@ -165,7 +179,7 @@ function CreateCabinForm({ cabinToEdit={}}) {
           
         </Button>
       </div>
-    </form>
+    </Form>
   )
 }
 
