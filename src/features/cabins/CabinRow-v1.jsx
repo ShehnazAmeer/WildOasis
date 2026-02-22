@@ -12,7 +12,6 @@ import { HiPencil, HiSquare2Stack, HiTrash, HiXMark } from "react-icons/hi2";
 import useCreateCabin from "./useCreateCabin";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-import Table from "../../ui/Table";
 
 export default function CabinRow({ cabin }) {
   const [showForm, setShowForm] = useState(false);
@@ -32,7 +31,10 @@ export default function CabinRow({ cabin }) {
   }
   return (
     <>
-      <Table.Row>
+      <section
+        role="row"
+        className=" grid grid-cols-[0.6fr_1.8fr_2.2fr_1fr_1fr_1fr_1fr] grid-flow-row gap-x-5 items-center p-3 border-b capitalize border-stone-300 space-y-3  max-md:w-auto bg-stone-100 max-md:text-lg max-sm:text-xs border"
+      >
         <div className="mx-auto my-0">
           <img
           className="px-2 w-20  aspect-3/2 object-cover  object-center  scale-150 -translate-x-1 font-bold"
@@ -98,9 +100,13 @@ export default function CabinRow({ cabin }) {
                 <HiXMark/>
               </Button>
             </Modal.Window>
+
+            
           </Modal>
+          
+         
         </div>
-      </Table.Row>
+      </section>
       {
         showForm && <CreateCabinForm cabinToEdit={cabin} />
       }

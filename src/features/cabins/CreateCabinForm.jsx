@@ -8,7 +8,7 @@ import FormLabel from "../../ui/FormLabel";
 import FormRow from "../../ui/FormRow";
 import Form from "../../ui/Form";
 
-function CreateCabinForm({ cabinToEdit={},onCloseModal}) {
+function CreateCabinForm({ cabinToEdit={},onClick}) {
   const [isCreatingCabin, setCreateCabin] = useCreateCabin();
   const [isUpdateCabin, setUpdateCabin] = useUpdateCabin();
   const isWorking = isCreatingCabin || isUpdateCabin;
@@ -31,7 +31,7 @@ function CreateCabinForm({ cabinToEdit={},onCloseModal}) {
           {
           onSuccess: (data) => {
               reset();
-              onCloseModal?.();
+              onClick?.();
           },
         }
       )
@@ -42,7 +42,7 @@ function CreateCabinForm({ cabinToEdit={},onCloseModal}) {
         {
           onSuccess: (data) => {
             reset();
-            onCloseModal?.();
+            onClick?.();
           },
         }
       );
@@ -58,7 +58,7 @@ function CreateCabinForm({ cabinToEdit={},onCloseModal}) {
   //   UpdatingCabin({newCabinData:{...data,image},id:editCabinId})
   // }
   return (
-    <Form onSubmit={handleSubmit(onSubmit,onError)} categoary={onCloseModal?'modal':'regular'}>
+    <Form onSubmit={handleSubmit(onSubmit,onError)} categoary={onClick?'modal':'regular'}>
       <FormRow>
         <FormLabel htmlFor='name'>Cabin Name</FormLabel>
          <input
@@ -166,7 +166,7 @@ function CreateCabinForm({ cabinToEdit={},onCloseModal}) {
         }
       </FormRow>
       <div className="text-right " >
-        <Button type="reset" category='secondary' onClick={()=>onCloseModal?.()} >Cancel</Button>
+        <Button type="reset" category='secondary' onClick={()=>onClick?.()} >Cancel</Button>
         <Button
           type='submit'
           category='primary'
@@ -182,5 +182,6 @@ function CreateCabinForm({ cabinToEdit={},onCloseModal}) {
     </Form>
   )
 }
+
 
 export default CreateCabinForm;
