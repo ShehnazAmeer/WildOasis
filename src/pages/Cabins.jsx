@@ -1,5 +1,6 @@
 import AddCabin from "../features/cabins/AddCabin";
 import CabinTable from "../features/cabins/CabinTable";
+import CabinTableOperations from "../features/cabins/CabinTableOperations";
 
 function Cabins() {
 
@@ -9,7 +10,7 @@ function Cabins() {
         <h1 className="font-extrabold text-4xl max-md:text-xl">
           All cabins
         </h1>
-        <p>filter/sort</p>
+        <CabinTableOperations/> 
       </section>
       
       <section  >

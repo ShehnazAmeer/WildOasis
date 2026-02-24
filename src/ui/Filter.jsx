@@ -1,35 +1,32 @@
-import styled, { css } from "styled-components";
+import Button from "./Button";
+import { useSearchParams } from "react-router-dom";
 
-const StyledFilter = styled.div`
-  border: 1px solid var(--color-grey-100);
-  background-color: var(--color-grey-0);
-  box-shadow: var(--shadow-sm);
-  border-radius: var(--border-radius-sm);
-  padding: 0.4rem;
-  display: flex;
-  gap: 0.4rem;
-`;
+export default function Fillter({filterField,options}) {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-const FilterButton = styled.button`
-  background-color: var(--color-grey-0);
-  border: none;
-
-  ${(props) =>
-    props.active &&
-    css`
-      background-color: var(--color-brand-600);
-      color: var(--color-brand-50);
-    `}
-
-  border-radius: var(--border-radius-sm);
-  font-weight: 500;
-  font-size: 1.4rem;
-  /* To give the same height as select */
-  padding: 0.44rem 0.8rem;
-  transition: all 0.3s;
-
-  &:hover:not(:disabled) {
-    background-color: var(--color-brand-600);
-    color: var(--color-brand-50);
+  function handleClick(value) {
+    searchParams.set(filterField, value);
+    setSearchParams(searchParams)
   }
-`;
+
+  const currentFilter = searchParams.get(filterField) || options.at(0).value;
+
+  return (
+    <div className="bg-stone-100 shador-sm px-3 py-2 gap2">
+      {
+        options.map(option => (
+          <Button
+            key={option.value}
+            category='custom'
+            styles={`${currentFilter === option.value ? "bg-blue-600 text-blue-50" : ""} font-bold w-60 mx-2 focus:ring-stone-100 px-1 py-3`}
+            onClick={() => handleClick(option.value)}
+            disabled={currentFilter===option.value}
+          >
+            {option.label}
+
+          </Button>
+        ))
+      }
+    </div>
+  )
+}

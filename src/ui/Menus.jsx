@@ -1,62 +1,92 @@
-import styled from "styled-components";
+import { createContext, useContext, useState } from "react";
+import { createPortal } from "react-dom";
+import useOutsideClick from "../hooks/useOutsideClick";
+import Button from "./Button";
 
-const StyledMenu = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-`;
+const MenusContext = createContext();
 
-const StyledToggle = styled.button`
-  background: none;
-  border: none;
-  padding: 0.4rem;
-  border-radius: var(--border-radius-sm);
-  transform: translateX(0.8rem);
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: var(--color-grey-100);
+export default function Menus({ children }) {
+  const [openId, setOpenId] = useState('');
+  const [toggleBtnPosition, setToggleBtnPosition] = useState();
+  
+  function close() {
+    setOpenId("")
   }
-
-  & svg {
-    width: 2.4rem;
-    height: 2.4rem;
-    color: var(--color-grey-700);
+  function open(id) {
+    setOpenId(id);
   }
-`;
+  
+  return (
+    <MenusContext.Provider value={{
+      openId,
+      toggleBtnPosition,
+      close,
+      open,
+      setToggleBtnPosition,
+    }} >
+      {children}
+    </MenusContext.Provider>
+  )
+}
 
-const StyledList = styled.ul`
-  position: fixed;
+function Toggle({ children, id }) {
+  const { openId, open, close, setToggleBtnPosition } = useContext(MenusContext);
+  
+  function handleClick(e) {
+    console.log('toggle clicked');
+    const rect = e.target.closest('button').getBoundingClientRect();
+    setToggleBtnPosition({
+      x: window.innerWidth - rect.width - rect.x+40,
+      y: rect.y + rect.height-100 ,
+    })
 
-  background-color: var(--color-grey-0);
-  box-shadow: var(--shadow-md);
-  border-radius: var(--border-radius-md);
-
-  right: ${(props) => props.position.x}px;
-  top: ${(props) => props.position.y}px;
-`;
-
-const StyledButton = styled.button`
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  padding: 1.2rem 2.4rem;
-  font-size: 1.4rem;
-  transition: all 0.2s;
-
-  display: flex;
-  align-items: center;
-  gap: 1.6rem;
-
-  &:hover {
-    background-color: var(--color-grey-50);
+    openId === '' || openId !== id ? open(id) : close();
   }
+  return (
+    <Button category='menu' styles="text-3xl" onClick={handleClick} >
+      {children}
+    </Button>
+  )
+}
 
-  & svg {
-    width: 1.6rem;
-    height: 1.6rem;
-    color: var(--color-grey-400);
-    transition: all 0.3s;
+function List({ children, id}) {
+  const { openId, toggleBtnPosition,close } = useContext(MenusContext);
+  const ref = useOutsideClick(close);
+
+  if (openId !== id) return null;
+
+  return ( createPortal(
+      <ul className={`fixed bg-stone-100 shadow-md `} ref={ref} style={{right:toggleBtnPosition.x, top:toggleBtnPosition.y}} >
+      {children }
+    </ul>,document.body)
+    
+  )
+ }
+function MenuButton({ children, onClick}) {
+  const { close } = useContext(MenusContext);
+
+  function handleClick() {
+    console.log('clicked');
+    onClick?.();
+    close();
   }
-`;
+  return (
+    <li>
+      <Button onClick={handleClick} category='custom' styles="flex items-center gap-2 hover:bg-stone-300  w-1/1 text-left bg-none px-2 py-4 transition-all" >
+        {children}
+      </Button>
+    </li>
+  )
+ }
+function Menu({children}) { 
+  return (
+    <div className="flex items-center py-5 justify-center w-1/1 ">
+      {children}
+    </div>
+  )
+}
+
+Menus.List = List;
+Menus.Toggle = Toggle;
+Menus.MenuButton = MenuButton;
+Menus.Menu = Menu;

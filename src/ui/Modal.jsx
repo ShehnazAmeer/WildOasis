@@ -27,7 +27,7 @@ export default function Modal({children}) {
 
 function Window({ children,name }) {
   const { openName, onClose: onClick } = useContext(ModalContext);
-  const ref =useOutsideClick(onClick)
+  const ref = useOutsideClick(onClick);
 
   if (openName !== name) return null;
 
@@ -42,7 +42,6 @@ function Window({ children,name }) {
         }
       </div>
     </div>,document.body)
-
   )
 }
 
@@ -50,9 +49,9 @@ function Open({ children,opens }) {
   const { onOpenWindowName} = useContext(ModalContext);
   
   return (
-    <div  className="text-right  my-6 ">
-      {cloneElement(children,{onClick:()=>onOpenWindowName(opens)})} 
-    </div>
+    <>
+       {cloneElement(children,{onClick:()=>onOpenWindowName(opens)})} 
+    </>
   )
 }
 
