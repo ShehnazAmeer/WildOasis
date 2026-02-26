@@ -42,13 +42,15 @@ export default function CabinRow({ cabin }) {
         >
           {name}
         </div>
-        <div className=" text-3xl max-md:text-lg max-sm:text-xs text-stone-500">
+        <div className=" text-xl max-md:text-lg max-sm:text-sm text-stone-500">
           {description}
         </div>
          <div
           className=" text-3xl max-md:text-lg max-sm:text-xs text-stone-500"
         >
-         Fits Upto {maxCapacity} guests
+          <span className="block">Fits Upto</span>
+          <span className="font-bold block "> {maxCapacity} guests </span>
+        
         </div>
         <div
           className="font-semibold text-3xl max-md:text-lg max-sm:text-xs"

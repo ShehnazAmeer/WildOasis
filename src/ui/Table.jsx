@@ -18,9 +18,9 @@ function Empty({ children }) {
   )
 }
 function Header({ children }) { 
-const {columns} = useContext(TableContext);
+  const { columns } = useContext(TableContext);
   return (
-    <header className={`bg-stone-100 rounded-sm grid grid-cols-[${columns}]  uppercase tracking-wider font-semibold text-stone-800 py-3 border border-stone-300 space-y-3  max-md:w-auto max-md:text-lg max-sm:text-xs px-2`} >
+    <header className={`bg-stone-100 rounded-sm grid uppercase tracking-wider font-semibold text-stone-800 py-3 border border-stone-300 space-y-3  max-md:w-auto max-md:text-lg max-sm:text-xs px-2`} style={{gridTemplateColumns:columns}} >
       {children}
     </header>
   )
@@ -39,13 +39,25 @@ function Row({ children }) {
   const { columns } = useContext(TableContext);
   return (
     <section
-      className= {`grid grid-cols-[${columns}] grid-flow-row gap-x-5 items-center p-3 border-b capitalize border-stone-300 space-y-3  max-md:w-auto bg-stone-100 max-md:text-lg max-sm:text-xs border`} 
+      className={`grid grid-flow-row gap-x-5 items-center p-3 border-b capitalize border-stone-300 space-y-3  max-md:w-auto bg-stone-100 max-md:text-lg max-sm:text-xs border `} 
+      style={{gridTemplateColumns:columns}}
     >
       {children}
     </section>
   )
- }
+}
+ 
+function Footer({children}) {
+  return (
+    <footer
+      className="bg-stone-200 flex justify-center px-3 py-5 my-8"
+    >
+      {children}
+    </footer>
+  )
+}
 
 Table.Header = Header;
 Table.Body = Body;
 Table.Row = Row;
+Table.Footer = Footer;

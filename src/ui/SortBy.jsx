@@ -5,10 +5,11 @@ export default function SortBy({ options, ...props }) {
     const [searchParams, setSearchParams] = useSearchParams();
 
     function handleChange(e) {
+        console.log()
         searchParams.set("sortby", e.target.value);
         setSearchParams(searchParams)
     }
-    const sortBy = searchParams.get('sortBy') || '';
+    const sortBy = searchParams.get('sortby') || '';
     return (
         <Select
             options={options}

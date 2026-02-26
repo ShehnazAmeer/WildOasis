@@ -1,33 +1,28 @@
+import Fillter from "../../ui/Filter";
 import SortBy from "../../ui/SortBy";
-import Filter from "../../ui/Filter";
-import TableOperations from "../../ui/TableOperations";
 
-function BookingTableOperations() {
+export default function BookingTableOperations(){
   return (
-    <TableOperations>
-      <Filter
-        filterField="status"
+    <div className="flex items-center gap-2">
+      <Fillter
+        filterField='status'
         options={[
-          { value: "all", label: "All" },
-          { value: "checked-out", label: "Checked out" },
-          { value: "checked-in", label: "Checked in" },
-          { value: "unconfirmed", label: "Unconfirmed" },
+          { value: 'all', label: 'All' },
+          { value: 'unconfirmed', label: 'UnConfirmend' },
+          { value: 'checked-in', label: 'Checked in' },
+          { value: 'checked-out', label: 'Checked out' },
+          
         ]}
       />
-
       <SortBy
         options={[
-          { value: "startDate-desc", label: "Sort by date (recent first)" },
-          { value: "startDate-asc", label: "Sort by date (earlier first)" },
-          {
-            value: "totalPrice-desc",
-            label: "Sort by amount (high first)",
-          },
-          { value: "totalPrice-asc", label: "Sort by amount (low first)" },
+          { value: 'startDate-asc', label: 'Sort by date (Latest date first)' },
+          { value: 'startDate-dsc', label: 'Sort by date(Oldest date first' },
+          { value: 'totalPrice-asc', label: 'Sort by amount (lowest first)' },
+          { value: 'totalPrice-dsc', label: 'Sort by amount (highest first)' },
+          
         ]}
       />
-    </TableOperations>
-  );
+  </div>
+)
 }
-
-export default BookingTableOperations;

@@ -1,86 +1,55 @@
-import styled from "styled-components";
 import { format, isToday } from "date-fns";
-
-import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
+import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
+import Menus from "../../ui/Menus";
+import { HiEllipsisVertical, HiEye } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 
-import { formatCurrency } from "../../utils/helpers";
-import { formatDistanceFromNow } from "../../utils/helpers";
-
-const Cabin = styled.div`
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: var(--color-grey-600);
-  font-family: "Sono";
-`;
-
-const Stacked = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-
-  & span:first-child {
-    font-weight: 500;
-  }
-
-  & span:last-child {
-    color: var(--color-grey-500);
-    font-size: 1.2rem;
-  }
-`;
-
-const Amount = styled.div`
-  font-family: "Sono";
-  font-weight: 500;
-`;
-
-function BookingRow({
-  booking: {
-    id: bookingId,
-    created_at,
-    startDate,
-    endDate,
-    numNights,
-    numGuests,
-    totalPrice,
-    status,
-    guests: { fullName: guestName, email },
-    cabins: { name: cabinName },
-  },
-}) {
-  const statusToTagName = {
-    unconfirmed: "blue",
-    "checked-in": "green",
-    "checked-out": "silver",
-  };
-
-  return (
-    <Table.Row>
-      <Cabin>{cabinName}</Cabin>
-
-      <Stacked>
-        <span>{guestName}</span>
-        <span>{email}</span>
-      </Stacked>
-
-      <Stacked>
-        <span>
-          {isToday(new Date(startDate))
-            ? "Today"
-            : formatDistanceFromNow(startDate)}{" "}
-          &rarr; {numNights} night stay
-        </span>
-        <span>
-          {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}
-          {format(new Date(endDate), "MMM dd yyyy")}
-        </span>
-      </Stacked>
-
-      <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
-
-      <Amount>{formatCurrency(totalPrice)}</Amount>
-    </Table.Row>
-  );
+const statusStyles = {
+    unconfirmed: 'bg-blue-200 text-blue-600',
+    'checked-in': 'bg-green-300 text-green-800',
+    'checked-out': 'bg-stone-300 text-stone-700',
 }
 
-export default BookingRow;
+export default function BookingRow({ booking }) {
+    const { id: bookingId, startDate, endDate, numNights, totalPrice, status, guests: { fullName, email }, cabins: { name } } = booking;
+    console.log(bookingId);
+    
+    const navigate = useNavigate();
+  
+    return (
+        <Table.Row>
+            <div> {name} </div>
+            <div>
+                <span className="block font-bold"> {name} </span>
+                <span className="block"> {fullName} {email} </span>
+            </div>
+            <div>
+                <span className="block italic font-bold">{isToday(new Date(startDate)) ? "Today" : formatDistanceFromNow(startDate)}{""} &mdash; {numNights} night stay</span>
+                
+                <span>
+                    {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}
+                    {format(new Date(endDate),"MMM dd yyyy")}
+                </span>
+            </div>
+            <span
+                className={`${statusStyles[status]} font-bold py-2 px-2 uppercase rounded-lg w-50 `}
+            >
+                {
+                    status.replace("-"," ")
+                }
+            </span>
+            <div> {formatCurrency(totalPrice)} </div>
+            <Menus.Menu>
+                <Menus.Toggle id={bookingId}> 
+                    <HiEllipsisVertical/>
+                </Menus.Toggle>
+                <Menus.List id={bookingId} >
+                    <Menus.MenuButton onClick={()=>navigate(`/bookings/${bookingId}`)}>
+                        <HiEye/> See details
+                    </Menus.MenuButton>
+                </Menus.List>
+            </Menus.Menu>
+        </Table.Row>
+    )
+}

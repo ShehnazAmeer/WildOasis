@@ -1,5 +1,34 @@
+import { PAGE_SIZE } from "../utils/GlobalConstants";
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
+
+//get all the bookings
+export async function getAllBookings({ filter, sortby,page}) {
+  let query = supabase
+    .from("bookings")
+    .select("id,created_at,startDate,endDate,numNights,numGuests,status,totalPrice,cabins(name),guests(*)",{count:'exact'})
+
+  //filter
+  if (filter) query = query[filter.filterMethod || 'eq'](filter.field, filter.value);
+
+  //sort
+  if (sortby) query = query.order(sortby.field, { ascending: sortby.direction === 'asc' })
+  //ONly rows from this specific current page
+  //pageSize=>total Number of pages
+  if (page) {
+    const from = (page-1) * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+    query = query.range(from, to)
+  } 
+  
+  const { data, error,count} = await query;
+
+  if (error) {
+    console.log(error.message);
+    throw new Error("Bookings data couldnot be loaded")
+  }
+  return {data,count}
+}
 
 export async function getBooking(id) {
   const { data, error } = await supabase

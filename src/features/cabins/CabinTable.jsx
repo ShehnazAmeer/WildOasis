@@ -4,6 +4,7 @@ import Spinner from "../../ui/Spinner";
 import Table from "../../ui/Table";
 import CabinRow from "./CabinRow";
 import useCabin from "./useCabin";
+import Empty from "../../ui/Empty";
 
 export default function CabinTable() {
   const { cabins, isLoadingCabins } = useCabin();
@@ -25,10 +26,11 @@ export default function CabinTable() {
 
   const sortedCabins=filteredCabins?.sort((a,b)=>(a[sortField]-b[sortField])*modifier)
   
-  if( isLoadingCabins)return <Spinner/>
+  if (isLoadingCabins) return <Spinner />
+  if (!cabins.length) return <Empty resource='Cabins'/>
   return (
     <Menus>
-        <Table columns='0.6fr_1.8fr_2.2fr_1fr_1fr_1fr_1fr'>
+        <Table columns='0.6fr 1fr 3fr 1fr 1fr 1fr 1fr'>
           <Table.Header>
             <div>Image</div>
             <div>Cabin</div>
