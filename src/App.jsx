@@ -42,7 +42,7 @@ export default function App() {
                     <Route path='login' element={<Login />} />
                     <Route path="*" element={<PageNotFound/>}/>
                     </Routes>
-            </BrowserRouter> 
+            </BrowserRouter>       
             <Toaster
                 position="top-center"
                 gutter={12}
@@ -51,7 +51,7 @@ export default function App() {
                     success: {
                       duration:3000  
                     },
-                    error: {
+                    error: {  
                         duration:5000
                     },
                     className:"text-xl max-w-lg px-16 py-24 bg-stone-300 text-stone-700 capitalize ",

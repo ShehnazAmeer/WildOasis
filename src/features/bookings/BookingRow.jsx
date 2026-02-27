@@ -4,16 +4,10 @@ import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
 import Menus from "../../ui/Menus";
 import { HiEllipsisVertical, HiEye } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
-
-const statusStyles = {
-    unconfirmed: 'bg-blue-200 text-blue-600',
-    'checked-in': 'bg-green-300 text-green-800',
-    'checked-out': 'bg-stone-300 text-stone-700',
-}
+import Tag from "../../ui/Tag";
 
 export default function BookingRow({ booking }) {
     const { id: bookingId, startDate, endDate, numNights, totalPrice, status, guests: { fullName, email }, cabins: { name } } = booking;
-    console.log(bookingId);
     
     const navigate = useNavigate();
   
@@ -32,13 +26,9 @@ export default function BookingRow({ booking }) {
                     {format(new Date(endDate),"MMM dd yyyy")}
                 </span>
             </div>
-            <span
-                className={`${statusStyles[status]} font-bold py-2 px-2 uppercase rounded-lg w-50 `}
-            >
-                {
-                    status.replace("-"," ")
-                }
-            </span>
+
+            <Tag status={status} />
+            
             <div> {formatCurrency(totalPrice)} </div>
             <Menus.Menu>
                 <Menus.Toggle id={bookingId}> 
