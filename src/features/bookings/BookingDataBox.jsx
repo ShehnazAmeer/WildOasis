@@ -4,8 +4,7 @@ import { format, isToday } from "date-fns";
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
 
 export default function BookingDataBox({ booking }) {
-  const {created_at,startDate, endDate,extrasPrice,guests:{fullName:guestName,email,country,countryFlag,nationalID},cabins:{name:cabinName},hasBreakfast,isPaid,numGuests,numNights,observation,status,totalPrice,cabinPrice} = booking;
-  console.log(booking)
+  const {created_at,startDate, endDate,extrasPrice,observations,guests:{fullName:guestName,email,country,countryFlag,nationalID},cabins:{name:cabinName},hasBreakfast,isPaid,numGuests,numNights,observation,status,totalPrice,cabinPrice} = booking;
 
   return (
     <section
@@ -46,12 +45,12 @@ export default function BookingDataBox({ booking }) {
           <p>National ID {nationalID} </p>
         </div>
         {
-          observation && (
+          observations && (
             <DataItem
               icon={<HiOutlineChatBubbleBottomCenterText />}
               label='Observation'
             >
-              {observation}
+              {observations}
             </DataItem>
           )
         }
@@ -62,7 +61,7 @@ export default function BookingDataBox({ booking }) {
           {hasBreakfast? 'Yes':'No'}
         </DataItem>
 
-        <div className="flex bg-amber-100 items-center justify-between px-5 py-12 rounded-sm mt-8">
+        <div className= {`flex items-center justify-between px-5 py-12 rounded-sm mt-8 ${isPaid? 'bg-green-200':'bg-amber-200'}`}>
           <DataItem
             icon={<HiOutlineCurrencyDollar />}
             label='Total Price'

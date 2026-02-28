@@ -9,21 +9,29 @@ import BookingDataBox from "./BookingDataBox";
 export default function BookingDetail() {
   const navigate = useNavigate();
   const { booking={}, isBookingLoading, error } = useBooking()
-  const { id,status } = booking;
+  const { id:bookingId,status } = booking;
 
   if (isBookingLoading) return <Spinner/>
   return (
     <>
       <div className="flex justify-between items-center">
-        <MainSection heading={`Booking # ${id} `} styles='mr-2'>
+        <MainSection heading={`Booking # ${bookingId} `} styles='mr-2'>
           <Tag status={status} />
         </MainSection>
         
-        <Button className='custom' styles="text-blue-600" onClick={()=>navigate(-1)}> &larr; Back </Button>
+        <Button
+          className='link'
+          onClick={() => navigate(-1)}
+        >
+          &larr; Back
+        </Button>
       </div>
       <BookingDataBox booking={booking} />
-      <div className="text-right ">
-          <Button>Back</Button>
+      <div className="flex gap-5 justify-end">
+        {
+          status==='unconfirmed' && <Button category='primary' onClick={()=>navigate(`/checkin/${bookingId}` )} >Check in </Button>
+        } 
+        <Button category='secondary' onClick={()=>navigate(-1)} >Back</Button>
       </div>
     </>
   )

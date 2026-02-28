@@ -6,6 +6,7 @@ export default function Button({category, children, type='button',onClick,disabl
     secondary: base + 'bg-stone-600 focus:ring-stone-600 hover:bg-stone-400 p-6 mx-1',
     close: 'bg-none text-4xl translate-x-3 transition-all cursor-pointer',
     delete: base + 'bg-red-500 text-red-50 text-4xl translate-x-3 transition-all foucs:ring-outline-red-500',
+    link:'text-blue-600 border',
     menu: 'bg-none border-none p-4 rounded-sm translateX-2 transition-all hover:bg-stone-400 cursor-pointer text-stone-400 ',
     custom:base,
   }

@@ -3,7 +3,8 @@ import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
 //get all the bookings
-export async function getAllBookings({ filter, sortby,page}) {
+export async function getAllBookings({ filter, sortby, page }) {
+  //count=>total number of rows that match this query.
   let query = supabase
     .from("bookings")
     .select("id,created_at,startDate,endDate,numNights,numGuests,status,totalPrice,cabins(name),guests(*)",{count:'exact'})
@@ -98,17 +99,20 @@ export async function getStaysTodayActivity() {
   return data;
 }
 
-export async function updateBooking(id, obj) {
+
+export default async function updateBooking(id, obj) {
+  console.log(id)
+  console.log(id,obj)
   const { data, error } = await supabase
-    .from("bookings")
+    .from('bookings')
     .update(obj)
-    .eq("id", id)
+    .eq('id', id)
     .select()
     .single();
 
   if (error) {
-    console.error(error);
-    throw new Error("Booking could not be updated");
+    console.log(error.message);
+    throw new Error('There was an Error Updating Booking Record')
   }
   return data;
 }

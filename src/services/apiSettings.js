@@ -1,17 +1,13 @@
 import supabase from "./supabase";
 
-export async function getSettings() {
-  let { data: settings, error } = await supabase
-    .from('settings')
-    .select('*')
-    .single();
+export default async function getSettings() {
+  const { data: settings, error } = await supabase.from('settings').select('*').single();
   if (error) {
     console.log(error.message)
-    throw new Error('Error occured while fetching settings data')
+    throw new Error(error.message);
   }
   return settings;
 }
-
 
 // We expect a newSetting object that looks like {setting: newValue}
 export async function updateSetting(newSetting) {

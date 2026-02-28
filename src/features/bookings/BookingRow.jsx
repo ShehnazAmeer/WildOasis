@@ -2,7 +2,7 @@ import { format, isToday } from "date-fns";
 import Table from "../../ui/Table";
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
 import Menus from "../../ui/Menus";
-import { HiEllipsisVertical, HiEye } from "react-icons/hi2";
+import { HiArrowDownOnSquare, HiEllipsisVertical, HiEye } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import Tag from "../../ui/Tag";
 
@@ -38,6 +38,14 @@ export default function BookingRow({ booking }) {
                     <Menus.MenuButton onClick={()=>navigate(`/bookings/${bookingId}`)}>
                         <HiEye/> See details
                     </Menus.MenuButton>
+                    {
+                        status === 'unconfirmed' && (
+                            <Menus.MenuButton onClick={()=> navigate(`/checkin/${bookingId}`)} >
+                             <HiArrowDownOnSquare/> CheckIn
+                            </Menus.MenuButton>
+                        )
+                    }
+                   
                 </Menus.List>
             </Menus.Menu>
         </Table.Row>
