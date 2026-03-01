@@ -1,4 +1,4 @@
-export default function Button({category, children, type='button',onClick,disabled=false,styles='' }) {
+export default function Button({ category, children, type = 'button', onClick, disabled = false, styles = '' }) {
   const base = 'text-2xl rounded-lg cursor-pointer focus:outline-none focus:ring focus:ring-offset-2 tracking-wide';
 
   const style = {
@@ -11,7 +11,7 @@ export default function Button({category, children, type='button',onClick,disabl
     custom:base,
   }
   return (
-    <button
+    <button   
       className={`${style[category]} ${styles}`}
       onClick={onClick}
       disabled={disabled}

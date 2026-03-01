@@ -3,6 +3,7 @@ import { getBooking } from "../../services/apiBookings";
 import { useParams } from "react-router-dom";
 
 export default function useBooking() {
+    console.log('fetching booking data')
     const { bookingId } = useParams();
     const { data:booking, isLoading: isBookingLoading, error } = useQuery({
         queryKey: ['bookings',bookingId],

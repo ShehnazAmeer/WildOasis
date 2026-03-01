@@ -9,6 +9,8 @@ export default function Fillter({filterField,options}) {
     setSearchParams(searchParams)
   }
 
+  if(searchParams.get('page')) searchParams.set('page',1)
+
   const currentFilter = searchParams.get(filterField) || options.at(0).value;
 
   return (

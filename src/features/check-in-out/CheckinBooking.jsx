@@ -17,7 +17,6 @@ export default function CheckinBooking() {
   const [confirmPaid, setConfirmPaid] = useState(false);
   const [confirmBreakfast, setConfirmBreakfast] = useState(false);
   const { settings, isLoadingSettings } = useSettings();
-  
 
   useEffect(() => setConfirmPaid(booking?.isPaid ?? false), [booking]);
 

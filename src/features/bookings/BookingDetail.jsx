@@ -5,10 +5,14 @@ import MainSection from "../../ui/MainSection";
 import useBooking from "./useBooking";
 import Spinner from "../../ui/Spinner";
 import BookingDataBox from "./BookingDataBox";
+import useCheckout from "../check-in-out/useCheckout";
+import useDeleteBooking from "./useDeleteBooking";
 
 export default function BookingDetail() {
   const navigate = useNavigate();
-  const { booking={}, isBookingLoading, error } = useBooking()
+  const { booking = {}, isBookingLoading, error } = useBooking()
+  const { checkout, isCheckout } = useCheckout();
+  const{ bookingDelete, isDeletingBooking } =useDeleteBooking();
   const { id:bookingId,status } = booking;
 
   if (isBookingLoading) return <Spinner/>
@@ -28,9 +32,25 @@ export default function BookingDetail() {
       </div>
       <BookingDataBox booking={booking} />
       <div className="flex gap-5 justify-end">
+        <Button
+          category='primary'
+          onClick={() => bookingDelete(bookingId)}
+          disabled={isDeletingBooking}
+        >Delete</Button>
         {
           status==='unconfirmed' && <Button category='primary' onClick={()=>navigate(`/checkin/${bookingId}` )} >Check in </Button>
         } 
+        {
+          status === 'checked-in' && (
+            <Button
+              category='primary'
+              onClick={() => checkout(bookingId)}
+              disabled={isCheckout}
+            >
+              check out
+            </Button>
+          )
+        }
         <Button category='secondary' onClick={()=>navigate(-1)} >Back</Button>
       </div>
     </>

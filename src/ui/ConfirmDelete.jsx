@@ -1,7 +1,6 @@
 import Button from "./Button";
 
-function ConfirmDelete({ resourceName, disabled, onConfirm,onClick}) {
-  console.log(onConfirm);
+function ConfirmDelete({ resourceName, disabled=false, onConfirm,onClick}) {
   function handleDelete() {
     console.log('delete clicked')
     onConfirm()
@@ -15,7 +14,7 @@ function ConfirmDelete({ resourceName, disabled, onConfirm,onClick}) {
       </p>
       <div className="flex justify-end gap-4">
         <Button onClick={onClick}  category='secondary'>Cancel</Button>
-        <Button onClick={handleDelete} disabled={disabled} category='delete'>Delete</Button>
+        <Button category='delete' onClick={handleDelete} disabled={disabled}>Delete</Button>
       </div>
     </div>
   )
