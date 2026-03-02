@@ -15,7 +15,7 @@ import Button from "../../ui/Button";
 export default function BookingRow({ booking }) {
     const navigate = useNavigate();
     const { checkout, isCheckout } = useCheckout();
-    const{ bookingDelete,isDeletingBooking }=useDeleteBooking()
+    const {bookingDelete,isDeletingBooking} =useDeleteBooking();
     const { id: bookingId, startDate, endDate, numNights, totalPrice, status, guests: { fullName, email }, cabins: { name } } = booking;
     
   
@@ -46,26 +46,8 @@ export default function BookingRow({ booking }) {
                     <Menus.List id={bookingId} >
                         <Menus.MenuButton onClick={()=>navigate(`/bookings/${bookingId}`)}>
                             <HiEye/> See details
-                        </Menus.MenuButton>
-                        
-                        <Modal.Open opens='delete'>
-                            <Menus.MenuButton>
-                                <HiTrash />
-                                <span>Delete</span>
-                            </Menus.MenuButton>
-                        </Modal.Open>
+                        </Menus.MenuButton>          
 
-                        <Modal.Window name='delete'>
-                            <ConfirmDelete
-                                resourceName='booking'
-                                onConfirm={() => deleteBooking(bookingId)}
-                            />
-                            <Button category="close" styles="absolute right-9 top-0" >
-                                <HiXMark/>
-                            </Button>
-                        </Modal.Window>
-
-                       
                         {
                             status === 'unconfirmed' && (
                                 <Menus.MenuButton onClick={()=> navigate(`/checkin/${bookingId}`)} >
@@ -83,10 +65,18 @@ export default function BookingRow({ booking }) {
                                 </Menus.MenuButton>
                             )
                         }
+                        <Modal.Open opens='delete'>
+                            <Menus.MenuButton>
+                             <HiTrash/><span>Delete Booking</span>
+                            </Menus.MenuButton>
+                        </Modal.Open>
                     </Menus.List>
+                    
+                    <Modal.Window name='delete'>
+                        <ConfirmDelete resourceName='booking' onConfirm={()=>bookingDelete(bookingId)} />
+                    </Modal.Window>
                 </Menus.Menu>
             </Modal>
-
         </Table.Row>
     )
 }

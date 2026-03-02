@@ -3,9 +3,9 @@ const style = {
   regular:'mx-8 py-8'
 }
 
-function Form({ children, onSubmit, styles = '', categoary }) {
+function Form({ children, onSubmit, styles = '', category }) {
   return (
-    <form onSubmit={onSubmit} className={`${style[categoary]} ${styles}`} >
+    <form onSubmit={onSubmit} className={`${style[category]} ${styles}`} >
       {children}
     </form>
   )

@@ -1,5 +1,10 @@
-export default function FormLabel({htmlFor,children}) {
+export default function FormLabel({ htmlFor, children, styles='' }) {
     return (
-        <label className="label " htmlFor={htmlFor}> {children} </label>
+        <label
+            className={`label ${styles ?? ""}`}
+            htmlFor={htmlFor}
+        >
+            {children}
+        </label>
     )
 }

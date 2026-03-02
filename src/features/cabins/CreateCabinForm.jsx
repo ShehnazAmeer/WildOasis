@@ -59,7 +59,7 @@ function CreateCabinForm({ cabinToEdit={},onClick}) {
   // }
   return (
     <Form onSubmit={handleSubmit(onSubmit,onError)} categoary={onClick?'modal':'regular'}>
-      <FormRow>
+      <FormRow style='mb-1' >
         <FormLabel htmlFor='name'>Cabin Name</FormLabel>
          <input
           className="input"
@@ -75,7 +75,7 @@ function CreateCabinForm({ cabinToEdit={},onClick}) {
           errors?.name?.message && <FormError> {errors.name.message} </FormError>
         }
       </FormRow>
-      <FormRow>
+      <FormRow style='mb-1'  >
         <FormLabel htmlFor='maxCapacity' > Maximum Capacity </FormLabel>
         <input
           className="input"
@@ -95,7 +95,7 @@ function CreateCabinForm({ cabinToEdit={},onClick}) {
           errors?.maxCapacity?.message && <FormError> {errors.maxCapacity.message} </FormError>
         }
       </FormRow>
-      <FormRow>
+      <FormRow style='mb-1'  >
         <FormLabel htmlFor='regularPrice'>Regular Price</FormLabel>
         <input
           className="input"
@@ -115,7 +115,7 @@ function CreateCabinForm({ cabinToEdit={},onClick}) {
           errors?.regularPrice?.message && <FormError> {errors.regularPrice.message} </FormError>
         }
       </FormRow>
-      <FormRow>
+      <FormRow style='mb-1'  >
         <FormLabel htmlFor='discount'>Discount</FormLabel>
         <input
           className="input"
@@ -135,7 +135,7 @@ function CreateCabinForm({ cabinToEdit={},onClick}) {
           errors?.discount?.message && <FormError> {errors?.discount?.message} </FormError>
         }
       </FormRow>
-      <FormRow>
+      <FormRow style='mb-1'  >
         <FormLabel htmlFor="description">Cabin Description</FormLabel>
         <textarea
           className="textarea"
@@ -150,7 +150,7 @@ function CreateCabinForm({ cabinToEdit={},onClick}) {
           errors?.description?.message && <FormError> {errors?.description?.message} </FormError>
         }
       </FormRow>
-      <FormRow>
+      <FormRow style='mb-1'  >
         <FormLabel htmlFor="image">Cabin Photo</FormLabel>
         <input
           id='image'

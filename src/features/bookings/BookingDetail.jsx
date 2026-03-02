@@ -7,12 +7,15 @@ import Spinner from "../../ui/Spinner";
 import BookingDataBox from "./BookingDataBox";
 import useCheckout from "../check-in-out/useCheckout";
 import useDeleteBooking from "./useDeleteBooking";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { HiXMark } from "react-icons/hi2";
 
 export default function BookingDetail() {
   const navigate = useNavigate();
   const { booking = {}, isBookingLoading, error } = useBooking()
   const { checkout, isCheckout } = useCheckout();
-  const{ bookingDelete, isDeletingBooking } =useDeleteBooking();
+  const { bookingDelete, isDeletingBooking } = useDeleteBooking();
   const { id:bookingId,status } = booking;
 
   if (isBookingLoading) return <Spinner/>
@@ -32,11 +35,6 @@ export default function BookingDetail() {
       </div>
       <BookingDataBox booking={booking} />
       <div className="flex gap-5 justify-end">
-        <Button
-          category='primary'
-          onClick={() => bookingDelete(bookingId)}
-          disabled={isDeletingBooking}
-        >Delete</Button>
         {
           status==='unconfirmed' && <Button category='primary' onClick={()=>navigate(`/checkin/${bookingId}` )} >Check in </Button>
         } 
@@ -51,6 +49,21 @@ export default function BookingDetail() {
             </Button>
           )
         }
+        <Modal>
+          <Modal.Open opens='delete'>
+            <Button category='primary'>Delete Booking</Button>
+          </Modal.Open>
+          <Modal.Window name='delete'>
+            <ConfirmDelete resourceName='booking' onConfirm={() => { 
+              bookingDelete(bookingId)
+              navigate(-1)
+            }}/>
+            <Button category="close" styles="absolute right-9 top-0" >
+                <HiXMark/>
+            </Button>
+          </Modal.Window>
+        </Modal>
+
         <Button category='secondary' onClick={()=>navigate(-1)} >Back</Button>
       </div>
     </>
