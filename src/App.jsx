@@ -13,6 +13,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import Booking from "./pages/Booking";
 import Checkin from "./pages/Checkin";
+import ProtectedRoute from "./ui/ProtectedRoute";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -28,7 +29,11 @@ export default function App() {
             <ReactQueryDevtools initialIsOpen={false}/>
             <BrowserRouter>
                 <Routes>
-                    <Route element={<Applayout />}>
+                    <Route element={
+                        <ProtectedRoute>
+                            <Applayout />
+                        </ProtectedRoute>}
+                    >
                         <Route path='dashboard' element={<Dashboard />} />
                         <Route path='bookings' element={<Bookings />} />
                         <Route path='bookings/:bookingId' element={<Booking />} />

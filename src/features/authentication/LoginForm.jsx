@@ -1,13 +1,24 @@
 import { useState } from "react";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
+import { useLogin } from "./useLogin";
 
 export default function LoginForm() {
   const [email, setEmail] = useState('abc@example.com');
   const [password, setPassword] = useState('abc123');
+  const {login,isLogin} =useLogin();
   function handleSubmitLogin(e) {
-    console.log('logiPage');
+    console.log('loginPage');
     e.preventDefault();
+    if (!email || !password) return;
+    //options object
+    login({ email, password }, {
+      onSettled: () => {
+        setEmail("");
+        setPassword("");
+      }
+    }
+    )
   }
   return (
     <Form onSubmit={handleSubmitLogin}  category='regular' styles="bg-stone-100  p-30  " >
@@ -18,7 +29,8 @@ export default function LoginForm() {
         id='email'
         placeholder="username"
         value={email}
-        onChange={e=>setEmail(e.target.value)}
+        onChange={e => setEmail(e.target.value)}
+        disabled={isLogin}
       />
       <input
         className="input my-15  "
@@ -26,9 +38,17 @@ export default function LoginForm() {
         id='password'
         placeholder="Password"
         value={password}
-        onChange={e=>setPassword(e.target.value)}
+        onChange={e => setPassword(e.target.value)}
+        disabled={isLogin}
       />
-      <Button onClick={handleSubmitLogin} category='primary'  styles="text-blue-50 focus-ring-blue-600 bg-blue-600 focus:ring-blue-600 w-full " >Login</Button>
+      <Button
+        onClick={handleSubmitLogin}
+        category='primary'
+        styles="text-blue-50 focus-ring-blue-600 bg-blue-600 focus:ring-blue-600 w-full"
+        disabled={isLogin}
+      >
+        Login
+      </Button>
     </Form>
   )
 }

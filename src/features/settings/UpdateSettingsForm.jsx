@@ -5,9 +5,10 @@ import Spinner from '../../ui/Spinner';
 import useUpdateSetting from './useUpdateSetting';
 import Button from '../../ui/Button';
 import { useForm } from 'react-hook-form';
+import Form from '../../ui/Form';
 
 function UpdateSettingsForm() {
-  const { settings = {}, isLoadingSettings, settingsError } = useSettings();
+  const { settings = {}, isLoadingSettings} = useSettings();
   const [isPendingSetting,setSetting] = useUpdateSetting();
   const { minBookingLength, maxBookings, maxGuestPerBooking, breakfastPrice } = settings;
   const { register, handleSubmit, formState } = useForm();
@@ -24,20 +25,20 @@ function UpdateSettingsForm() {
   if(isLoadingSettings) return <Spinner/>
 
   return (
-    <form>
-      <FormRow>
-        <FormLabel>Minimum Nights</FormLabel>
+    <Form category='regular' styles='bg-stone-100 px-12 '>
+      <FormRow style='pb-8'>
+        <FormLabel  >Minimum Nights</FormLabel>
         <input
           placeholder='Minimum Nights'
           type='number'
           id='minBookingLength'
-          className='input'
+          className='input p'
           defaultValue={minBookingLength}
           disabled={isPendingSetting}
           {...register('minBookingLength')}
         />
       </FormRow>
-      <FormRow>
+      <FormRow style='pb-8'>
         <FormLabel>Maximum Nights</FormLabel>
         <input 
           placeholder='Maximum nights'
@@ -50,7 +51,7 @@ function UpdateSettingsForm() {
 
         />
       </FormRow>
-      <FormRow>
+      <FormRow style='pb-8'>
         <FormLabel>Maximum Guests</FormLabel>
         <input
           placeholder='Maximum guests'
@@ -62,7 +63,7 @@ function UpdateSettingsForm() {
           {...register('maxGuestPerBooking')}
         />
       </FormRow>
-      <FormRow>
+      <FormRow style='pb-8'>
         <FormLabel>Breakfast Price</FormLabel>
         <input
           placeholder='Breakfast Price'
@@ -74,7 +75,7 @@ function UpdateSettingsForm() {
           {...register('breakfastPrice')}
         />
       </FormRow>
-        <div className=' bg-stone-100 text-center pb-9'>
+        <div className=' bg-stone-100 text-center py-9'>
         <Button
           category='primary'
           styles="max-md:text-lg max-md:p-2 "
@@ -83,7 +84,8 @@ function UpdateSettingsForm() {
           Apply Settings
         </Button>
         </div>
-    </form>
+    </Form>
+
   );
 }
 
