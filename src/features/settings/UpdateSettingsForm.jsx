@@ -25,8 +25,8 @@ function UpdateSettingsForm() {
   if(isLoadingSettings) return <Spinner/>
 
   return (
-    <Form category='regular' styles='bg-stone-100 px-12 '>
-      <FormRow style='pb-8'>
+    <Form category='internal'>
+      <FormRow category='horizental' style='pb-8'>
         <FormLabel  >Minimum Nights</FormLabel>
         <input
           placeholder='Minimum Nights'
@@ -38,7 +38,7 @@ function UpdateSettingsForm() {
           {...register('minBookingLength')}
         />
       </FormRow>
-      <FormRow style='pb-8'>
+      <FormRow category='horizental' style='pb-8'>
         <FormLabel>Maximum Nights</FormLabel>
         <input 
           placeholder='Maximum nights'
@@ -51,7 +51,7 @@ function UpdateSettingsForm() {
 
         />
       </FormRow>
-      <FormRow style='pb-8'>
+      <FormRow category='horizental' style='pb-8'>
         <FormLabel>Maximum Guests</FormLabel>
         <input
           placeholder='Maximum guests'
@@ -63,7 +63,7 @@ function UpdateSettingsForm() {
           {...register('maxGuestPerBooking')}
         />
       </FormRow>
-      <FormRow style='pb-8'>
+      <FormRow category='horizental' style='pb-8'>
         <FormLabel>Breakfast Price</FormLabel>
         <input
           placeholder='Breakfast Price'
