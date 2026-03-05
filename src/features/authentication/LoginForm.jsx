@@ -4,8 +4,8 @@ import Form from "../../ui/Form";
 import { useLogin } from "./useLogin";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState('abc@example.com');
-  const [password, setPassword] = useState('abc123');
+  const [email, setEmail] = useState('pocan34166@feriwor.com');
+  const [password, setPassword] = useState('123456');
   const {login,isLogin} =useLogin();
   function handleSubmitLogin(e) {
     console.log('loginPage');

@@ -8,8 +8,8 @@ export default function LogoutUser() {
     function handleLogout() {
         logout()
     }
-    if(isLogout) return <Spinner/>
     return (
+        
         <Button onClick={handleLogout} disabled={isLogout} >
             <HiArrowRightOnRectangle/>
         </Button>

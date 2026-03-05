@@ -1,57 +1,71 @@
 import { useState } from "react";
-
 import Button from "../../ui/Button";
-import FileInput from "../../ui/FileInput";
 import Form from "../../ui/Form";
+import FormLabel from "../../ui/FormLabel";
 import FormRow from "../../ui/FormRow";
-import Input from "../../ui/Input";
+import useUser from "./useUser";
+import { useUpdateUser } from "./useUpdateUser";
 
-import { useUser } from "./useUser.js";
-
-function UpdateUserDataForm() {
-  // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
-  const {
-    user: {
-      email,
-      user_metadata: { fullName: currentFullName },
-    },
-  } = useUser();
-
-  const [fullName, setFullName] = useState(currentFullName);
+export default function UpdateuserDataForm() {
+  const { user: { email, user_metadata: { fullName: currentUserFullName }, }, } = useUser();
+  const [fullName, setFullName] = useState(currentUserFullName);
   const [avatar, setAvatar] = useState(null);
-
+  const { updateUser,isUpdatingUser } =useUpdateUser();
+  
   function handleSubmit(e) {
     e.preventDefault();
+
+    if (!fullName ) return;
+
+    updateUser({ fullName, avatar }, {
+      onSettled: () => {
+        e.target.reset();
+        setAvatar(null)
+      }
+    })
+  }
+
+  function handleCancel() {
+    setFullName(currentUserFullName);
+    setAvatar(null);
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <FormRow label="Email address">
-        <Input value={email} disabled />
+    <Form category='internal' onSubmit={handleSubmit} >
+      <FormRow category='horizental' >
+        <FormLabel htmlFor='email' >Email address</FormLabel>
+        <input
+          className="input bg-blue-100 "
+          id='email'
+          value={email}
+          disabled
+        />
       </FormRow>
-      <FormRow label="Full name">
-        <Input
-          type="text"
+      <FormRow category='horizental' >
+        <FormLabel htmlFor='fullName'>Full Name</FormLabel>
+        <input
+          className="input"
+          type='text'
+          id='fullName'
           value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          id="fullName"
+          onChange={e => setFullName(e.target.value)}
+          disabled={isUpdatingUser}
         />
       </FormRow>
-      <FormRow label="Avatar image">
-        <FileInput
-          id="avatar"
-          accept="image/*"
-          onChange={(e) => setAvatar(e.target.files[0])}
+      <FormRow category='horizental' >
+        <FormLabel htmlFor='avatar'>Avatar Image</FormLabel>
+        <input
+          className="input  file:bg-blue-600 file:text-blue-50 file:py-4 file:px-3 file:rounded-lg "
+          type="file"
+          id='avatar'
+          onChange={e => setAvatar(e.target.files[0])}
+          disabled={isUpdatingUser}
         />
       </FormRow>
-      <FormRow>
-        <Button type="reset" variation="secondary">
-          Cancel
-        </Button>
-        <Button>Update account</Button>
-      </FormRow>
+      <div className="text-right ">
+        <Button category='secondary' type='reset' onClick={handleCancel} >Cancel</Button>
+        <Button category='primary' onClick={handleSubmit} >Update account</Button>
+      </div>
     </Form>
-  );
+  )
 }
-
-export default UpdateUserDataForm;

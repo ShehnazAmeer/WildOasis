@@ -36,14 +36,14 @@ function Toggle({ children, id }) {
     console.log('toggle clicked');
     const rect = e.target.closest('button').getBoundingClientRect();
     setToggleBtnPosition({
-      x: window.innerWidth - rect.width - rect.x+40,
-      y: rect.y + rect.height-100 ,
+      x: window.innerWidth - rect.width - rect.x+50,
+      y: rect.y + rect.height-50 ,
     })
 
     openId === '' || openId !== id ? open(id) : close();
   }
   return (
-    <Button category='menu' styles="text-3xl" onClick={handleClick} >
+    <Button category='menu' styles="text-4xl" onClick={handleClick} >
       {children}
     </Button>
   )
