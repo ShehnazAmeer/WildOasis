@@ -32,8 +32,8 @@ function Window({ children,name }) {
   if (openName !== name) return null;
 
   return ( createPortal(
-    <div className="fixed top-0 left-0 w-1/1 h-screen backdrop-blur-[3px] bg-stone-200/10 z-1 transition-all my-8">
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-stone-100 rounded-lg shadow-lg px-12 py-16 transition-all overflow-y-scroll" ref={ref}>
+    <div className="fixed top-0 left-0 w-1/1 h-screen backdrop-blur-[3px] bg-stone-200/10 z-1 transition-all my-8 ">
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-stone-100 rounded-lg shadow-lg px-12 py-16 transition-all  dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700" ref={ref}>
         {
           Children.map(children, child => {
             if (!isValidElement(child)) return child;

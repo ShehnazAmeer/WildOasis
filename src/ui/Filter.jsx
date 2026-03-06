@@ -14,7 +14,7 @@ export default function Fillter({filterField,options}) {
   const currentFilter = searchParams.get(filterField) || options.at(0).value;
 
   return (
-    <div className="bg-stone-100 shador-sm px-3 py-2 gap2 flex">
+    <div className="bg-stone-100 shador-sm px-3 py-2 gap2 flex dark:bg-gray-800 dark:text-gray-200 ">
       {
         options.map(option => (
           <Button

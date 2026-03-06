@@ -19,8 +19,7 @@ export default function UpdateuserDataForm() {
 
     updateUser({ fullName, avatar }, {
       onSettled: () => {
-        e.target.reset();
-        setAvatar(null)
+        setAvatar(null);
       }
     })
   }

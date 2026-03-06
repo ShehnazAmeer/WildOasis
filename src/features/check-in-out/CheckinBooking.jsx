@@ -52,14 +52,17 @@ export default function CheckinBooking() {
   
   return (
     <>
-      <MainSection heading='Check in'>
-        <Button category='link'  onClick={()=>navigate(-1)} > &larr; Back </Button>
-      </MainSection>
+      <div className="flex justify-between items-center mx-12 ">
+        <MainSection heading='Check in' styles="mr-2 ">
+        </MainSection>
+        <Button className='link' onClick={() => navigate(-1)} > &larr; Back </Button>
+      </div>
+
       <BookingDataBox booking={booking} />
 
       {
         !hasBreakfast && (
-          <div className="flex justify-between py-9 px-3 bg-stone-50">
+          <div className="flex justify-between py-9 px-3 mx-18 bg-stone-50  dark:bg-gray-800 dark:text-gray-200 dark:border-gray-300 ">
                 <Checkbox
                   id='breakfast'
                   type='checkbox'
@@ -75,7 +78,7 @@ export default function CheckinBooking() {
           )
         }
 
-      <div className="flex justify-between py-9 px-3 bg-stone-50">
+      <div className="flex justify-between py-9 px-3 bg-stone-50  dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700 mx-18 ">
         <Checkbox
           id='confirm'
           type='checkbox'
@@ -88,7 +91,7 @@ export default function CheckinBooking() {
       </div>
 
 
-      <div className="flex gap-5 justify-end">
+      <div className="flex gap-5 justify-end mx-16 mt-5">
         <Button
           category='primary'
           disabled={!confirmPaid || isChecking}

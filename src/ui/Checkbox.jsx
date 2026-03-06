@@ -2,9 +2,9 @@
 
 export default function Checkbox({type,children,value,onChange,disabled=false,id}) {
   return (
-    <div className="flex gap-7" >
+    <div className="flex gap-7 " >
       <input
-        className= {` ${type==='checkbox'? 'h-9 w-9 outline-2 origin-0 accent-blue-600 text-blue-50 ':''}`}
+        className= {` ${type==='checkbox'? 'h-9 w-9 outline-2 origin-0 accent-blue-600 text-blue-50  ':''}`}
         type={type}
         checked={value}
         onChange={(e) => onChange(e.target.value)}

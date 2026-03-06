@@ -75,7 +75,7 @@ function UpdateSettingsForm() {
           {...register('breakfastPrice')}
         />
       </FormRow>
-        <div className=' bg-stone-100 text-center py-9'>
+        <div className=' bg-stone-100 text-center py-9  dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700'>
         <Button
           category='primary'
           styles="max-md:text-lg max-md:p-2 "

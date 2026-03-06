@@ -4,11 +4,11 @@ import { format, isToday } from "date-fns";
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
 
 export default function BookingDataBox({ booking }) {
-  const {created_at,startDate, endDate,extrasPrice,observations,guests:{fullName:guestName,email,country,countryFlag,nationalID},cabins:{name:cabinName},hasBreakfast,isPaid,numGuests,numNights,observation,status,totalPrice,cabinPrice} = booking;
+  const {created_at,startDate, endDate,extrasPrice,observations,guests:{fullName:guestName,email,country,countryFlag,nationalID},cabins:{name:cabinName},hasBreakfast,isPaid,numGuests,numNights,totalPrice,cabinPrice} = booking;
 
   return (
     <section
-      className="bg-stone-100 border border-stone-300 rounded-lg overflow-hidden"
+      className="bg-stone-100 border  dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700 border-stone-300 rounded-lg overflow-hidden mx-20 mt-20"
     >
       <header className="bg-blue-600 text-blue-50 px-8 py-16 text-2xl font-bold flex items-center justify-between" >
         <div className="flex items-center gap-5 font-bold">
@@ -26,17 +26,17 @@ export default function BookingDataBox({ booking }) {
       </header>
 
       <section className="px-13 py-15">
-        <div className="flex items-center gap-4 mb-6 text-stone-500">
+        <div className="flex items-center gap-4 mb-6 text-stone-500  dark:bg-gray-800 dark:text-gray-200 ">
           {
             countryFlag && (
               <img
-                className="max-w-10 rounded-md block border border-stone-500"
+                className="max-w-10 rounded-md block border border-stone-500 "
                 src={countryFlag}
                 alt={`${country} flag`}
               />
             ) 
           }
-          <p className="font-extrabold text-stone-500">
+          <p className="font-extrabold text-stone-500  dark:bg-gray-800 dark:text-gray-200 ">
             {guestName} {numGuests > 1 ? `+ ${numGuests - 1} guests` : ''}
           </p>
           <span>&bull;</span>
@@ -61,7 +61,7 @@ export default function BookingDataBox({ booking }) {
           {hasBreakfast? 'Yes':'No'}
         </DataItem>
 
-        <div className= {`flex items-center justify-between px-5 py-12 rounded-sm mt-8 ${isPaid? 'bg-green-200':'bg-amber-200'}`}>
+        <div className= {`flex items-center justify-between px-5 py-12 rounded-sm mt-8   dark:text-gray-700 dark:border-gray-700 ${isPaid? 'bg-green-200':'bg-amber-200'}`}>
           <DataItem
             icon={<HiOutlineCurrencyDollar />}
             label='Total Price'
@@ -77,7 +77,7 @@ export default function BookingDataBox({ booking }) {
         </div>
 
       </section>
-      <footer className="px-6 py-14 text-2xl text-stone-600 text-right">
+      <footer className="px-6 py-14 text-2xl text-stone-600 text-right  dark:bg-gray-800 dark:text-gray-200 ">
         <p>Booked on {format(new Date(created_at),"EEE, MMM dd yyyy,p")} </p>
       </footer>
     </section>

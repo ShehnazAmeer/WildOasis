@@ -126,19 +126,7 @@ function Uploader() {
   }
 
   return (
-    <div
-      style={{
-        marginTop: "auto",
-        backgroundColor: "#e0e7ff",
-        padding: "8px",
-        borderRadius: "5px",
-        textAlign: "center",
-        display: "flex",
-        flexDirection: "column",
-        gap: "8px",
-        cursor:'pointer'
-      }}
-    >
+    <div className="mt-auto bg-stone-50 p-8 rounded-md text-center flex flex-col gap-4 cursor-pointer  dark:bg-gray-700 dark:text-gray-200 dark:border-gray-700" >
       <h3>SAMPLE DATA</h3>
 
       <Button category='primary' onClick={uploadAll} disabled={isLoading}>

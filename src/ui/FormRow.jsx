@@ -5,7 +5,7 @@ const styles = {
 export default function FormRow({ children, style,category }) {
     return (
         <div
-            className={`${styles[category]} ${style}`}
+            className={`${styles[category]} dark:bg-gray-800 dark:text-gray-200  ${style}`}
         >
             {children}
         </div>

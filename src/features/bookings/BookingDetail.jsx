@@ -21,7 +21,7 @@ export default function BookingDetail() {
   if (isBookingLoading) return <Spinner/>
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center  mx-12  ">
         <MainSection heading={`Booking # ${bookingId} `} styles='mr-2'>
           <Tag status={status} />
         </MainSection>
@@ -34,7 +34,7 @@ export default function BookingDetail() {
         </Button>
       </div>
       <BookingDataBox booking={booking} />
-      <div className="flex gap-5 justify-end">
+      <div className="flex gap-5 justify-end mx-16 mt-5 ">
         {
           status==='unconfirmed' && <Button category='primary' onClick={()=>navigate(`/checkin/${bookingId}` )} >Check in </Button>
         } 

@@ -6,7 +6,7 @@ export default function Table({ children, columns }) {
     <TableContext.Provider value={{columns}}>
       <div
         role='table'
-        className="text-2xl rounded-md overflow-hidden">
+        className="text-2xl rounded-md overflow-hidden ">
         {children}
      </div>
     </TableContext.Provider>
@@ -20,7 +20,7 @@ function Empty({ children }) {
 function Header({ children }) { 
   const { columns } = useContext(TableContext);
   return (
-    <header className={`bg-stone-100 rounded-sm grid uppercase tracking-wider font-semibold text-stone-800 py-3 border border-stone-300 space-y-3  max-md:w-auto max-md:text-lg max-sm:text-xs px-2`} style={{gridTemplateColumns:columns}} >
+    <header className={`bg-stone-100 rounded-sm grid uppercase tracking-wider font-semibold text-stone-800 py-3 border border-stone-300 space-y-3  max-md:w-auto max-md:text-lg max-sm:text-xs px-2 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700`} style={{gridTemplateColumns:columns}} >
       {children}
     </header>
   )
@@ -39,7 +39,7 @@ function Row({ children }) {
   const { columns } = useContext(TableContext);
   return (
     <section
-      className={`grid grid-flow-row gap-x-5 items-center p-3 border-b capitalize border-stone-300 space-y-3  max-md:w-auto bg-stone-100 max-md:text-lg max-sm:text-xs border `} 
+      className={` dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700 grid grid-flow-row gap-x-5 items-center p-3 border-b capitalize border-stone-300 space-y-3  max-md:w-auto bg-stone-100 max-md:text-lg max-sm:text-xs border `} 
       style={{gridTemplateColumns:columns}}
     >
       {children}
@@ -50,7 +50,7 @@ function Row({ children }) {
 function Footer({children}) {
   return (
     <footer
-      className="bg-stone-200 flex justify-center px-3 py-5 my-8"
+      className=" dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700  bg-stone-200 flex justify-center px-3 py-5 my-8"
     >
       {children}
     </footer>

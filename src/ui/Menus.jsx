@@ -56,7 +56,7 @@ function List({ children, id}) {
   if (openId !== id) return null;
 
   return ( createPortal(
-      <ul className={`fixed bg-stone-100 shadow-md `} ref={ref} style={{right:toggleBtnPosition.x, top:toggleBtnPosition.y}} >
+      <ul className={`fixed bg-stone-100  dark:bg-gray-700 dark:text-gray-200 dark:border-gray-700 shadow-md `} ref={ref} style={{right:toggleBtnPosition.x, top:toggleBtnPosition.y}} >
       {children }
     </ul>,document.body)
     

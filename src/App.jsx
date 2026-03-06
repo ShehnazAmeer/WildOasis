@@ -14,6 +14,7 @@ import { Toaster } from "react-hot-toast";
 import Booking from "./pages/Booking";
 import Checkin from "./pages/Checkin";
 import ProtectedRoute from "./ui/ProtectedRoute";
+import { DarkModeProvider } from "./context/DarkModeContext/darkModeProvider";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -25,46 +26,47 @@ const queryClient = new QueryClient({
 
 export default function App() {
     return (
-        <QueryClientProvider client={queryClient}>
-            <ReactQueryDevtools initialIsOpen={false}/>
-            <BrowserRouter>
-                <Routes>
-                    <Route element={
-                        <ProtectedRoute>
-                            <Applayout />
-                        </ProtectedRoute>}
-                    >
-                        <Route path='dashboard' element={<Dashboard />} />
-                        <Route path='bookings' element={<Bookings />} />
-                        <Route path='bookings/:bookingId' element={<Booking />} />
-                        <Route path='checkin/:bookingId' element={<Checkin/>}/>
-                        <Route path='users' element={<NewUsers/>}/>
-                        <Route path='cabins' element={<Cabins/>} />
-                        <Route path='settings' element={<Settings />} />
-                        <Route path='account' element={<Account />} />
-                    </Route>
-                    
-                    <Route index element={<Navigate replace to='dashboard' />} />
-                    
-                    <Route path='login' element={<Login />} />
-                    <Route path="*" element={<PageNotFound/>}/>
-                    </Routes>
-            </BrowserRouter>       
-            <Toaster
-                position="top-center"
-                gutter={12}
-                containerStyle={{ margin: '8px' }}
-                toastOptions={{
-                    success: {
-                      duration:3000  
-                    },
-                    error: {  
-                        duration:5000
-                    },
-                    className:"text-xl max-w-lg px-16 py-24 bg-stone-300 text-stone-700 capitalize ",
-                }}
-            />
-       </QueryClientProvider>
-        
+        <DarkModeProvider>
+            <QueryClientProvider client={queryClient}>
+                <ReactQueryDevtools initialIsOpen={false}/>
+                <BrowserRouter>
+                    <Routes>
+                        <Route element={
+                            <ProtectedRoute>
+                                     <Applayout />
+                            </ProtectedRoute>}
+                        >
+                            <Route path='dashboard' element={<Dashboard />} />
+                            <Route path='bookings' element={<Bookings />} />
+                            <Route path='bookings/:bookingId' element={<Booking />} />
+                            <Route path='checkin/:bookingId' element={<Checkin/>}/>
+                            <Route path='users' element={<NewUsers/>}/>
+                            <Route path='cabins' element={<Cabins/>} />
+                            <Route path='settings' element={<Settings />} />
+                            <Route path='account' element={<Account />} />
+                        </Route>
+                        
+                        <Route index element={<Navigate replace to='dashboard' />} />
+                        
+                        <Route path='login' element={<Login />} />
+                        <Route path="*" element={<PageNotFound/>}/>
+                        </Routes>
+                </BrowserRouter>       
+                <Toaster
+                    position="top-center"
+                    gutter={12}
+                    containerStyle={{ margin: '8px' }}
+                    toastOptions={{
+                        success: {
+                          duration:3000  
+                        },
+                        error: {  
+                            duration:5000
+                        },
+                        className:"text-xl max-w-lg px-16 py-24 bg-stone-300 text-stone-700 capitalize ",
+                    }}
+                />
+           </QueryClientProvider>
+        </DarkModeProvider>
     )
 }

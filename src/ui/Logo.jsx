@@ -1,14 +1,14 @@
+import { useDarkMode } from "../context/DarkModeContext/useDarkModeContext";
+
 function Logo() {
+  const {isDarkMode}= useDarkMode();
   return (
     <div className="text-center flex justify-center  ">
       <img
         className="w-auto h-44 "
-        src='/logo-light.png'
+        src={`${isDarkMode? '/logo-dark.png':'/logo-light.png'}`}
         alt='logo' />
     </div>
-    // <StyledLogo>
-    //   <Img src="/logo-light.png" alt="Logo" />
-    // </StyledLogo>
   );
 }
 

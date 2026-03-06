@@ -9,7 +9,7 @@ export default function MainNav() {
         <li className="p-5 w-full" >
           <NavLink
             to='/dashboard'
-            className={({isActive})=>`flex gap-3 py-5 px-3 items-center font-bold  ${isActive?"  bg-stone-200 ":""}`}
+            className={({isActive})=>`flex gap-3 py-5 px-3 items-center font-bold  ${isActive?"  bg-stone-200  dark:bg-gray-600 dark:text-gray-200 dark:border-gray-700 ":""}`}
           >
              <HiOutlineHome className={({isActive})=>`${isActive?"active:text-blue-700":"group-active:text-blue-800"}`} />
             
@@ -19,7 +19,7 @@ export default function MainNav() {
         </li>
         <li className="p-5">
           <NavLink
-            className={({ isActive }) => `flex gap-3 py-5 px-3 items-center font-bold transition-all ${isActive ? "  bg-stone-200" : ''}`}
+            className={({ isActive }) => `flex gap-3 py-5 px-3 items-center font-bold transition-all ${isActive ? "  bg-stone-200 dark:bg-gray-600 dark:text-gray-200 dark:border-gray-700" : ''}`}
             to='/bookings'
           >
             <HiOutlineCalendarDays />
@@ -28,7 +28,7 @@ export default function MainNav() {
         </li>
         <li className="p-5">
           <NavLink
-            className={({ isActive }) => ` flex gap-3 py-5 px-3 items-center font-bold transition-all ${isActive ? "bg-stone-200" : ""}`}
+            className={({ isActive }) => ` flex gap-3 py-5 px-3 items-center font-bold transition-all ${isActive ? "bg-stone-200 dark:bg-gray-600 dark:text-gray-200 dark:border-gray-700" : ""}`}
             to='/cabins'
           >
             <HiOutlineHomeModern />
@@ -37,7 +37,7 @@ export default function MainNav() {
         </li>
         <li className="p-5">
           <NavLink
-            className={({ isActive }) => ` flex gap-3 py-5 px-3 items-center font-bold transition-all ${isActive ? "bg-stone-200" : ""}`}
+            className={({ isActive }) => ` flex gap-3 py-5 px-3 items-center font-bold transition-all ${isActive ? "bg-stone-200 dark:bg-gray-600 dark:text-gray-200 dark:border-gray-700" : ""}`}
             to='/users'
           >
             <HiOutlineUsers />
@@ -46,7 +46,7 @@ export default function MainNav() {
         </li>
         <li className="p-5">
           <NavLink
-            className={({ isActive }) => ` flex gap-3 py-5 px-3 items-center font-bold transition-all ${isActive ? "bg-stone-200" : ""}`}
+            className={({ isActive }) => ` flex gap-3 py-5 px-3 items-center font-bold transition-all ${isActive ? "bg-stone-200 dark:bg-gray-600 dark:text-gray-200 dark:border-gray-700" : ""}`}
             to='/settings'
           >
             <HiOutlineCog6Tooth />

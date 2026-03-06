@@ -3,7 +3,7 @@ import SortBy from "../../ui/SortBy";
 
 export default function CabinTableOperations() {
     return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 dark:bg-gray-800 dark:text-gray-200">
             <Fillter
                 filterField='discount'
                 options={[
