@@ -1,15 +1,6 @@
-import styled from "styled-components";
-import DashboardBox from "./DashboardBox";
-
-const StyledSalesChart = styled(DashboardBox)`
-  grid-column: 1 / -1;
-
-  /* Hack to change grid line colors */
-  & .recharts-cartesian-grid-horizontal line,
-  & .recharts-cartesian-grid-vertical line {
-    stroke: var(--color-grey-300);
-  }
-`;
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { useDarkMode } from "../../context/DarkModeContext/useDarkModeContext";
+import { eachDayOfInterval, format, isDate, isSameDay, subDays } from "date-fns";
 
 const fakeData = [
   { label: "Jan 09", totalSales: 480, extrasSales: 20 },
@@ -43,17 +34,64 @@ const fakeData = [
   { label: "Feb 06", totalSales: 1450, extrasSales: 400 },
 ];
 
-const isDarkMode = true;
-const colors = isDarkMode
-  ? {
-      totalSales: { stroke: "#4f46e5", fill: "#4f46e5" },
-      extrasSales: { stroke: "#22c55e", fill: "#22c55e" },
-      text: "#e5e7eb",
-      background: "#18212f",
+export default function SalesChart({bookings,numDays}) {
+  const { isDarkMode } = useDarkMode();
+
+  const allDates = eachDayOfInterval({
+    start: subDays(new Date(), numDays-1),
+    end: subDays(new Date(),0),
+  });
+
+  const data = allDates.map(date => {
+    return {
+      label: format(date, 'MM dd'),
+      totalSales: bookings.filter(booking =>
+        isSameDay(date, new Date(booking.created_at))
+      ).reduce((acc, cur) => acc + cur.totalPrice, 0),
+      
+      extrasSales: bookings.filter(booking =>
+        isSameDay(date, new Date(booking.created_at))).reduce((acc, cur) => acc + cur.extrasPrice, 0),
     }
-  : {
-      totalSales: { stroke: "#4f46e5", fill: "#c7d2fe" },
-      extrasSales: { stroke: "#16a34a", fill: "#dcfce7" },
-      text: "#374151",
-      background: "#fff",
-    };
+  })
+
+  return (
+    <div
+      className="col-span-full rounded-lg bg-stone-100  p-5 flex flex-col gap-5 dark:bg-gray-700 dark:text-gray-100"
+    >
+      <h2>Sales</h2>
+      <ResponsiveContainer className='dark:bg-gray-700 dark:text-gray-100'  height={300}
+          width={'100%'} style={{margin:'auto' }}>
+        <AreaChart
+          data={data}
+          className="dark:bg-gray-700 dark:text-gray-100"
+         >
+          <XAxis dataKey='label' tick={{fill:isDarkMode?'#fff':'#374151'}}   />
+          <YAxis unit='$' tick={{fill:isDarkMode?'#fff':'#374151'}}  />
+          <CartesianGrid />
+          <Tooltip
+            contentStyle={ {backgroundColor:isDarkMode? '#374151':'#fff',border:'none'}}
+          />
+          <Area
+            dataKey='totalSales'
+            type='monotone'
+            stroke={isDarkMode ? '#e8e8e8' : '#4f46e5'}
+            fill={isDarkMode ? "#4f46e5" : "#c7d2fe"}
+            strokeWidth={2}
+            name='Total sales'
+            unit='$'
+          />
+          <Area
+            dataKey='extrasSales'
+            type='monotone'
+            stroke={isDarkMode ? '#9cefd9' : '#097175'}
+            fill={isDarkMode ? "#47a5a9" : "#80d9f0"}
+            strokeWidth={2}
+            name='Extras sales'
+            unit='$'
+          />
+      </AreaChart >
+      </ResponsiveContainer>
+
+    </div>
+  )
+}

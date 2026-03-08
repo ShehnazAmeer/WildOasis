@@ -6,7 +6,6 @@ import { useDarkMode } from "../context/DarkModeContext/useDarkModeContext";
 
 export default function DarkModeToggle() {
     const { isDarkMode, handleDarkMode} = useDarkMode();
-    console.log(isDarkMode);
     
     useEffect(function () {
         const el = document.documentElement;
