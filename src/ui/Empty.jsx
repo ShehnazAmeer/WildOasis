@@ -1,5 +1,16 @@
 function Empty({ resource }) {
-  return <p>No {resource} could be found.</p>;
+  return (
+    <div
+      className="h-screen flex justify-center items-center"
+    >
+      <p
+      className=" "
+       >
+      No {resource} could be found.
+     </p>
+    </div>
+  )
+
 }
 
 export default Empty;

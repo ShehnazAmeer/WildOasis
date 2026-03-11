@@ -1,6 +1,6 @@
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { useDarkMode } from "../../context/DarkModeContext/useDarkModeContext";
-import { eachDayOfInterval, format, isDate, isSameDay, subDays } from "date-fns";
+import { eachDayOfInterval, format,  isSameDay, subDays } from "date-fns";
 
 const fakeData = [
   { label: "Jan 09", totalSales: 480, extrasSales: 20 },
@@ -58,7 +58,7 @@ export default function SalesChart({bookings,numDays}) {
     <div
       className="col-span-full rounded-lg bg-stone-100  p-5 flex flex-col gap-5 dark:bg-gray-700 dark:text-gray-100"
     >
-      <h2>Sales</h2>
+      <h2>Sales from {format(allDates.at(0),'MM dd yyyy')} &mdash; {format(allDates.at(-1),'MM dd yyyy')} </h2>
       <ResponsiveContainer className='dark:bg-gray-700 dark:text-gray-100'  height={300}
           width={'100%'} style={{margin:'auto' }}>
         <AreaChart

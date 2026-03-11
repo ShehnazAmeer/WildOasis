@@ -1,4 +1,6 @@
-export default function Button({ category, children, type = 'button', onClick, disabled = false, styles = '' }) {
+import { Link } from "react-router-dom";
+
+export default function Button({ category, children, type = 'button', onClick, disabled = false, styles = '',as='',to }) {
   const base = 'text-2xl rounded-lg cursor-pointer focus:outline-none focus:ring focus:ring-offset-2 tracking-wide';
 
   const style = {
@@ -10,6 +12,17 @@ export default function Button({ category, children, type = 'button', onClick, d
     menu: 'bg-none border-none p-4 rounded-sm translateX-2 transition-all hover:bg-stone-400 cursor-pointer text-stone-400 ',
     custom:base,
   }
+  if (as==='link') return (
+    <Link
+      className={`${style[category]} ${styles}`}
+      onClick={onClick}
+      disabled={disabled}
+      type={type}
+      to={to}
+    >
+      {children}
+    </Link>
+  ) 
   return (
     <button   
       className={`${style[category]} ${styles}`}

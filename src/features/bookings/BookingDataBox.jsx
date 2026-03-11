@@ -2,9 +2,14 @@ import { HiOutlineChatBubbleBottomCenterText, HiOutlineCheckCircle, HiOutlineCur
 import DataItem from "../../ui/DataItem";
 import { format, isToday } from "date-fns";
 import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
+import Flag from "../../ui/Flag";
+import Empty from "../../ui/Empty";
 
 export default function BookingDataBox({ booking }) {
-  const {created_at,startDate, endDate,extrasPrice,observations,guests:{fullName:guestName,email,country,countryFlag,nationalID},cabins:{name:cabinName},hasBreakfast,isPaid,numGuests,numNights,totalPrice,cabinPrice} = booking;
+
+  const {created_at,startDate, endDate,extrasPrice,observations,guests:
+    { fullName: guestName='', email, country, countryFlag, nationalID }, cabins: { name: cabinName }, hasBreakfast, isPaid, numGuests, numNights, totalPrice, cabinPrice } = booking;
+  
 
   return (
     <section
@@ -28,12 +33,8 @@ export default function BookingDataBox({ booking }) {
       <section className="px-13 py-15">
         <div className="flex items-center gap-4 mb-6 text-stone-500  dark:bg-gray-800 dark:text-gray-200 ">
           {
-            countryFlag && (
-              <img
-                className="max-w-10 rounded-md block border border-stone-500 "
-                src={countryFlag}
-                alt={`${country} flag`}
-              />
+            countryFlag && ( 
+              <Flag countryFlag={countryFlag} country={country} />
             ) 
           }
           <p className="font-extrabold text-stone-500  dark:bg-gray-800 dark:text-gray-200 ">

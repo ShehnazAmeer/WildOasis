@@ -1,49 +1,47 @@
-import styled from "styled-components";
+import Spinner from "../../ui/Spinner";
+import TodayItem from "./TodayItem";
+import { useTodayActivity } from "./useTodayActivity"
 
-import Heading from "../../ui/Heading";
-import Row from "../../ui/Row";
-
-const StyledToday = styled.div`
-  /* Box */
-  background-color: var(--color-grey-0);
-  border: 1px solid var(--color-grey-100);
-  border-radius: var(--border-radius-md);
-
-  padding: 3.2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2.4rem;
-  grid-column: 1 / span 2;
-  padding-top: 2.4rem;
-`;
-
-const TodayList = styled.ul`
-  overflow: scroll;
-  overflow-x: hidden;
-
-  /* Removing scrollbars for webkit, firefox, and ms, respectively */
-  &::-webkit-scrollbar {
-    width: 0 !important;
-  }
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-`;
-
-const NoActivity = styled.p`
-  text-align: center;
-  font-size: 1.8rem;
-  font-weight: 500;
-  margin-top: 0.8rem;
-`;
-
-function Today() {
+export default function TodayActivity() {
+  const { todayActivity, isTodayActivityLoading } = useTodayActivity();
+  console.log(todayActivity);
   return (
-    <StyledToday>
-      <Row type="horizontal">
-        <Heading as="h2">Today</Heading>
-      </Row>
-    </StyledToday>
-  );
+    <div
+      className="bg-stone-100  rounded-md p-4 flex flex-col gap-3 col-span-2 pt-4  dark:bg-gray-700 dark:text-gray-100"
+    >
+      <div>
+        <h2>Today</h2>
+      </div>
+      {
+        !isTodayActivityLoading ? (
+          todayActivity.length > 0 ? (
+            <TodayList>
+              {
+                todayActivity.map(activity => (
+                  <TodayItem activity={activity} key={activity.id} />
+                ))
+              }
+            </TodayList>
+          )
+            : (
+              <p
+                className="text-center text-xl font-bold mt-7"
+              >
+                No Activity to Show Today!
+              </p>
+            )
+        ) :
+          (<Spinner />) 
+      }
+
+    </div>
+  )
 }
 
-export default Today;
+function TodayList({children}) {
+  return (
+    <ul className="overflow-y-auto">
+      {children}
+    </ul>
+  )
+}

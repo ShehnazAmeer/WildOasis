@@ -24,8 +24,8 @@ export default function DarkModeToggle() {
                 onClick={handleDarkMode}  
              >
                 {
-                    <HiSun/>
-                // darkModeToggle? <HiMoon />: <HiSun/>
+                    
+                isDarkMode? <HiMoon />: <HiSun/>
             }
           </Button>
         </div>

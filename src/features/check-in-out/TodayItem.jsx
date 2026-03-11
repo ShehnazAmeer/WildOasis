@@ -1,20 +1,49 @@
-import styled from "styled-components";
+import Button from "../../ui/Button"
+import Flag from "../../ui/Flag"
+import Tag from "../../ui/Tag"
+import useCheckout from "./useCheckout";
 
-const StyledTodayItem = styled.li`
-  display: grid;
-  grid-template-columns: 9rem 2rem 1fr 7rem 9rem;
-  gap: 1.2rem;
-  align-items: center;
+export default function TodayItem({ activity }) {
+  const { id, status, guests, numNights } = activity;
+  const { checkout,isCheckout }= useCheckout();
+  return (
+    <li
+      className="flex justify-between  px-4 gap-9 items-center first:border-t first:border-t-stone-400 first:pt-9 mb-4 "
+    >
+      <div
+        className="flex justify-between items-center space-x-4"
+      >
+        {status === 'unconfirmed' && <Tag styles='text-lg' status='unconfirmed' />}
+        {status === 'checked-in' && <Tag styles='text-lg' status='checked-in' />}
+        
+        <Flag country={guests.country} countryFlag={guests.countryFlag} />
 
-  font-size: 1.4rem;
-  padding: 0.8rem 0;
-  border-bottom: 1px solid var(--color-grey-100);
-
-  &:first-child {
-    border-top: 1px solid var(--color-grey-100);
-  }
-`;
-
-const Guest = styled.div`
-  font-weight: 500;
-`;
+        <div className="font-bold text-xl">
+          {guests.fullName}
+        </div>
+      </div>
+      <p className="text-xl "> {numNights} Nights </p>
+      {status === 'unconfirmed' && (
+        <Button
+          as="link"
+          to={`/checkin/${id}`}
+          category='primary'
+          styles="text-sm w-23  px-1 text-center"
+        >
+          Check in
+        </Button>
+      )}
+      
+      {status === 'checked-in' && (
+        <Button
+          onClick={() => checkout(id)}
+          disabled={isCheckout}
+          category='primary'
+          styles="text-sm w-23 px-1 text-center"
+        >
+          Check out
+        </Button>
+      ) }
+    </li>
+  )
+}

@@ -1,31 +1,15 @@
-import styled from "styled-components";
+import Button from "./Button";
+export default function ErrorFallback({error,resetErrorBoundary}) {
+  return (
+    <main
+      className="h-screen bg-stone-100 flex items-center justify-center p-4"
+    >
+      <div className="rounded-md p-3 flex-3 text-center">
+        <h1 className="mb-5 font-bold"> Something Went Wrong! </h1>
+        <p className="font-serif mb-8 text-stone-700"> {error.message} </p>
+        <Button category='primary' onClick={()=>resetErrorBoundary()} >Try Again </Button>
+      </div>
 
-const StyledErrorFallback = styled.main`
-  height: 100vh;
-  background-color: var(--color-grey-50);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4.8rem;
-`;
-
-const Box = styled.div`
-  /* Box */
-  background-color: var(--color-grey-0);
-  border: 1px solid var(--color-grey-100);
-  border-radius: var(--border-radius-md);
-
-  padding: 4.8rem;
-  flex: 0 1 96rem;
-  text-align: center;
-
-  & h1 {
-    margin-bottom: 1.6rem;
-  }
-
-  & p {
-    font-family: "Sono";
-    margin-bottom: 3.2rem;
-    color: var(--color-grey-500);
-  }
-`;
+    </main>
+  )
+}

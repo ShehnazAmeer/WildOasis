@@ -10,15 +10,20 @@ import useDeleteBooking from "./useDeleteBooking";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { HiXMark } from "react-icons/hi2";
+import Empty from "../../ui/Empty";
 
 export default function BookingDetail() {
   const navigate = useNavigate();
   const { booking = {}, isBookingLoading, error } = useBooking()
   const { checkout, isCheckout } = useCheckout();
   const { bookingDelete, isDeletingBooking } = useDeleteBooking();
-  const { id:bookingId,status } = booking;
+  const { id: bookingId, status } = booking;
 
-  if (isBookingLoading) return <Spinner/>
+  if(Object.keys(booking).length === 0) return  <Empty resource='Booking' />
+  
+
+  if (isBookingLoading) return <Spinner />
+  
   return (
     <>
       <div className="flex justify-between items-center  mx-12  ">
