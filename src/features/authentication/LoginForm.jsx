@@ -2,11 +2,16 @@ import { useState } from "react";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import { useLogin } from "./useLogin";
+import Modal from "../../ui/Modal";
+import SignupForm from "./SignupForm";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const {login,isLogin} =useLogin();
+  const { login, isLogin } = useLogin();
+  const navigate = useNavigate();
+  
   function handleSubmitLogin(e) {
     console.log('loginPage');
     e.preventDefault();
@@ -16,8 +21,7 @@ export default function LoginForm() {
       onSettled: () => {
         setEmail("");
         setPassword("");
-      }
-    }
+      } }
     )
   }
   return (
@@ -49,6 +53,15 @@ export default function LoginForm() {
       >
         Login
       </Button>
+        <div className="text-center py-4 ">
+            <Button
+              category='custom'
+              styles="p-6 w-full text-center text-stone-50 focus-ring-stone-600 bg-stone-600 focus:ring-stone-600 hover:bg-stone-300"
+              onClick={()=> navigate('/users')}
+            >
+              Create New User
+            </Button>
+        </div>
     </Form>
   )
 }

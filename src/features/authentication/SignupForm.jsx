@@ -5,10 +5,12 @@ import FormLabel from "../../ui/FormLabel";
 import FormRow from "../../ui/FormRow";
 import FormError from "../../ui/FormError";
 import { useSignup } from "./useSignup";
+import { useNavigate } from "react-router-dom";
 
 export default function SignupForm() {
   const { register, formState, getValues, handleSubmit,reset } = useForm();
- const { signUp,isSignUp }= useSignup();
+  const { signUp, isSignUp } = useSignup();
+  const navigate= useNavigate();
   const { errors } = formState;
   function onSubmit({ email, fullName, password }) {
     signUp(
@@ -72,6 +74,7 @@ export default function SignupForm() {
       <div className="text-right space-x-10">
         <Button
           category='secondary'
+          onClick={()=>navigate(-1)}
         >
           Cancel
         </Button>
@@ -80,7 +83,7 @@ export default function SignupForm() {
           onClick={handleSubmit(onSubmit)}
           disabled={isSignUp}
         >
-          Create Nww User
+          Create New User
         </Button>
       </div>
     </Form>

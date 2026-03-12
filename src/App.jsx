@@ -40,7 +40,6 @@ export default function App() {
                             <Route path='bookings' element={<Bookings />} />
                             <Route path='bookings/:bookingId' element={<Booking />} />
                             <Route path='checkin/:bookingId' element={<Checkin/>}/>
-                            <Route path='users' element={<NewUsers/>}/>
                             <Route path='cabins' element={<Cabins/>} />
                             <Route path='settings' element={<Settings />} />
                             <Route path='account' element={<Account />} />
@@ -49,6 +48,7 @@ export default function App() {
                         <Route index element={<Navigate replace to='dashboard' />} />
                         
                         <Route path='login' element={<Login />} />
+                        <Route path='users' element={<NewUsers/>}/>
                         <Route path="*" element={<PageNotFound/>}/>
                         </Routes>
                 </BrowserRouter>       
