@@ -10,7 +10,7 @@ export default function UpdateuserDataForm() {
   const { user: { email, user_metadata: { fullName: currentUserFullName }, }, } = useUser();
   const [fullName, setFullName] = useState(currentUserFullName);
   const [avatar, setAvatar] = useState(null);
-  const { updateUser,isUpdatingUser } =useUpdateUser();
+  const { updateUser, isUpdatingUser } = useUpdateUser();
   
   function handleSubmit(e) {
     e.preventDefault();
@@ -62,7 +62,7 @@ export default function UpdateuserDataForm() {
         />
       </FormRow>
       <div className="text-right ">
-        <Button category='secondary' type='reset' onClick={handleCancel} >Cancel</Button>
+        <Button  category='secondary' type='reset' onClick={handleCancel} >Cancel</Button>
         <Button category='primary' onClick={handleSubmit} >Update account</Button>
       </div>
     </Form>
