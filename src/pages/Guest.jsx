@@ -1,7 +1,6 @@
 import GuestOperations from "../features/guests/GuestOperation";
-import Button from "../ui/Button";
+import GuestTable from "../features/guests/GuestTable";
 import MainSection from "../ui/MainSection";
-import Modal from "../ui/Modal";
 
 export default function Guest() {
     return (
@@ -10,8 +9,8 @@ export default function Guest() {
         >
             <MainSection heading={'All Guests'}>
                 <GuestOperations />
-                
             </MainSection>
+            <GuestTable/>
             
         </div>
     )

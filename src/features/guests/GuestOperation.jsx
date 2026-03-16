@@ -18,8 +18,8 @@ export default function GuestOperations() {
             </Modal>
             <SortBy
                 options={[
-                    { value: 'name-asc', label: 'Sort by Name (A-Z)' },
-                    { value: 'name-dsc', label: 'Sort by Name (Z-A) ' },
+                    { value: 'fullName-asc', label: 'Sort by Name (A-Z)' },
+                    { value: 'fullName-dsc', label: 'Sort by Name (Z-A) ' },
                     { value: 'nationality-asc', label: 'Sort by Nationaliy (A-Z)' },
                     {value:'nationality-dsc',label:'Sort by Nationality (Z-A)'}
                 ]}

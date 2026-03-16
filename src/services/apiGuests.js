@@ -17,3 +17,14 @@ export async function createGuests(newGuest) {
     console.log(data);
     return data;
 }
+
+export async function getGuest() {
+    let { data: guests, error } = await supabase
+        .from('guests')
+        .select('*')
+    if(error){
+        console.log(error.message);
+        throw new Error(error.message)
+    }
+    return guests
+}

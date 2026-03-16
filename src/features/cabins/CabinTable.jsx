@@ -27,7 +27,8 @@ export default function CabinTable() {
   const sortedCabins=filteredCabins?.sort((a,b)=>(a[sortField]-b[sortField])*modifier)
   
   if (isLoadingCabins) return <Spinner />
-  if (!cabins.length) return <Empty resource='Cabins'/>
+  if (!cabins.length) return <Empty resource='Cabins' />
+  
   return (
     <Menus>
         <Table columns='0.6fr 1fr 3fr 1fr 1fr 1fr 1fr'>
