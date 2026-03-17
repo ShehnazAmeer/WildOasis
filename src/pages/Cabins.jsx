@@ -4,7 +4,6 @@ import CabinTableOperations from "../features/cabins/CabinTableOperations";
 import MainSection from "../ui/MainSection";
 
 function Cabins() {
-
   return (
     <div
       className="max-w-480 mx-auto my-auto px-12 flex flex-col gap-10 "  

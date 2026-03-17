@@ -139,3 +139,7 @@ export async function deleteBooking(id) {
 //   }
 //   return data;
 // }
+
+export async function createBooking(newBooking) {
+  console.log(newBooking);
+}
