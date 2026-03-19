@@ -141,5 +141,17 @@ export async function deleteBooking(id) {
 // }
 
 export async function createBooking(newBooking) {
-  console.log(newBooking);
+  const { data, error } = await supabase
+    .from('bookings')
+    .insert([
+      { newBooking },
+    ])
+    .select('*');
+  
+    if (error) {
+        console.log(error.message);
+        throw new Error('Error occured while creating new Booking')
+    }
+    return data;
+
 }

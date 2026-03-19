@@ -7,28 +7,37 @@ import "react-datepicker/dist/react-datepicker.css";
 import useCabin from "../cabins/useCabin";
 import useGuests from "../guests/useGuests";
 import { useForm } from "react-hook-form";
+import Button from "../../ui/Button";
+import FormError from "../../ui/FormError";
+import { useCreateBooking } from "./useCreateBooking";
 
 export default function Createbooking() {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    const [isBreakfast, setIsBreakfast] = useState(false);
-    const [breakfastPaid, setBreakfastPaid] = useState(false);
-    const [cabinId, setCabinId] = useState(null);
-    const[guestId,setGuestId] =useState(null);
     const { cabins } = useCabin();
     const { guests } = useGuests();
-    const {register,formState,handleSubmit,reset} =useForm();
+    const { register, formState, handleSubmit, reset } = useForm();
+    const {createBooking,isSendingBooking} =useCreateBooking();
     const cabinIds = cabins?.map(cabin => cabin.id);
-    const guestIds =guests?.map(guest => guest.id); 
+    const guestIds = guests?.map(guest => guest.id); 
+    const {errors} =formState;
+    
+    function onSubmit(data) {
+        if (!data) return;
+        createBooking({ ...data, startDate: startDate, endDate: endDate }, {
+            onSuccess: () => {
+                reset()
+            }
+        })
+    }
 
     return (
-        <Form>
+        <Form onSubmit={handleSubmit(onSubmit)} >
             <FormRow style='mb-1'>
                 <FormLabel htmlFor='startDate'>Start Date</FormLabel>
                 <div className="dark:bg-gray-800 dark:text-gray-200 input">
                     <DatePicker id="startDate" placeholderText="Select Date" className="focus:outline-none focus:ring-2 focus:ring-blue-500" selected={startDate} onChange={date => setStartDate(date)} />
                 </div>
-                
             </FormRow>
             <FormRow style='mb-1'>
                 <FormLabel htmlFor='endDate'>End Date</FormLabel>
@@ -43,7 +52,11 @@ export default function Createbooking() {
                     id='numNights'
                     className="input"
                     placeholder="Number of Nights"
+                    {...register('numNights',{required:'This field is required'})}
                 />
+                {
+                    errors?.numNights?.message && <FormError> {errors.numNights.message} </FormError>
+                }
             </FormRow>
             <FormRow style='mb-1'>
                 <FormLabel htmlFor='numGuests'>Number of Guests</FormLabel>
@@ -52,15 +65,20 @@ export default function Createbooking() {
                     id='numGuests'
                     type='number'
                     placeholder="Number of Guests"
+                    {
+                    ...register('numGuests',{required:'This field is required'})
+                    }
                 />
+                {
+                    errors?.numGuests?.message && <FormError> {errors.numGuests.message} </FormError>
+                }
             </FormRow>
             <FormRow style='mb-1'>
                 <FormLabel htmlFor='cabinId' >Cabin Id </FormLabel>
                 <select
                     className="input"
                     id='cabinId'
-                    value={cabinId}
-                    onChange={e=>setCabinId(e.target.value)}
+                    {...register('cabinId',{required:'This field is required'})}
                 >
                     { cabinIds?.map(id=>(
                         <option
@@ -72,19 +90,16 @@ export default function Createbooking() {
                         </option>) 
                     )}
                 </select>
-                <input
-                    type='text'
-                    className="input"
-                    placeholder="Enter Cabin Id"
-                />
+                {
+                    errors?.cabinId?.message && <FormError> {errors.cabinId.message} </FormError>
+                }
             </FormRow>
             <FormRow style='mb-1'>
                 <FormLabel htmlFor='guestId' >Guest Id</FormLabel>
                 <select
                     className="input"
                     id='guestId'
-                    value={guestId}
-                    onChange={e=>setGuestId(e.target.value)}
+                    {...register('guestId',{required:'This field is required'})}
                 >
                     { guestIds?.map(id=>(
                         <option
@@ -96,14 +111,16 @@ export default function Createbooking() {
                         </option>) 
                     )}
                 </select>
+                {
+                    errors?.guestId?.message && <FormError> {errors.guestId.message} </FormError>
+                }
             </FormRow>
             <FormRow style='mb-1'>
                 <FormLabel htmlFor='status'>Guest Status</FormLabel>
                 <select
                     className="input"
                     id='status'
-                    value={breakfastPaid}
-                    onChange={(e)=>setBreakfastPaid(e.target.value)}
+                    {...register('status',{required:'This field is required'})}
                 >
                     <option
                         className="dark:bg-gray-800 dark:text-gray-200"
@@ -125,31 +142,37 @@ export default function Createbooking() {
                         checked out
                     </option>
                 </select>
+                {
+                    errors?.status?.message && <FormError> {errors.status.message} </FormError>
+                }
             </FormRow>
             <FormRow style='mb-1'>
                 <FormLabel htmlFor='hasBreakfast' >Breakfast Included?</FormLabel>
                 <select
                     className="input"
                     id='hasBreakfast'
-                    value={isBreakfast}
-                    onChange={(e)=>setIsBreakfast(e.target.value)}
-                    
+                    {...register('hasBreakfast',{required:'This field is required'})} 
                 >
                     <option className="dark:bg-gray-800 dark:text-gray-200" value={true}>Yes</option>
                     <option className="dark:bg-gray-800 dark:text-gray-200" value={false}>No</option>
                 </select>
+                {
+                    errors?.hasBreakfast?.message && <FormError> {errors.hasBreakfast.message} </FormError>
+                }
             </FormRow>
             <FormRow style='mb-1'>
                 <FormLabel htmlFor='isPaid' >Breakfast Paid?</FormLabel>
                 <select
                     className="input"
                     id='isPaid'
-                    value={breakfastPaid}
-                    onChange={(e)=>setBreakfastPaid(e.target.value)}
+                    {...register('isPaid',{required:'This field is required'})}
                 >
                     <option className="dark:bg-gray-800 dark:text-gray-200" value={true} >Yes</option>
                     <option className="dark:bg-gray-800 dark:text-gray-200" value={false} >No</option>
                 </select>
+                {
+                    errors?.isPaid?.message && <FormError> {errors.isPaid.message} </FormError>
+                }
             </FormRow>
             <FormRow style='mb-1'>
                 <FormLabel htmlFor='observations' >Observation</FormLabel>
@@ -157,8 +180,15 @@ export default function Createbooking() {
                     className="input"
                     id='observations'
                     placeholder="Enter Observations"
+                    {...register('observations',{required:'This field is required'})}
                 />
+                {
+                    errors?.observations?.message && <FormError> {errors.observations.message} </FormError>
+                }
             </FormRow>
+            <div className="text-center">
+                <Button onClick={handleSubmit(onSubmit)} category='primary'>Create New Booking</Button>
+            </div>
         </Form>
     )
 }

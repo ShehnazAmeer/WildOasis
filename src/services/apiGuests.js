@@ -14,7 +14,6 @@ export async function createGuests(newGuest) {
         console.log(error.message);
         throw new Error('Error occured while creating new Guest')
     }
-    console.log(data);
     return data;
 }
 

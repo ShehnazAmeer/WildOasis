@@ -3,7 +3,7 @@ import { createBooking } from "../../services/apiBookings"
 import toast from "react-hot-toast"
 
 export function useCreateBooking() {
-    const { data: bookingsData, isPending: isLoadingBooking, error: bookingError } = useMutation({
+    const { mutate:createBooking,isPending:isSendingBooking,error:bookingError } = useMutation({
         mutationFn: (newBooking) => createBooking(newBooking),
         onSuccess: () => {
             toast.success('New Booking have been created');
@@ -14,7 +14,7 @@ export function useCreateBooking() {
     });
     return {
         bookingError,
-        bookingsData,
-        isLoadingBooking,
+        createBooking,
+        isSendingBooking,
     }
 }
