@@ -7,7 +7,7 @@ export default function AddBooking() {
     return (
         <Modal>
             <Modal.Open opens='createBooking'>
-                <Button category='primary' >Create New Booking</Button>
+                <Button category='primary' >Add Booking</Button>
             </Modal.Open>
             <Modal.Window name='createBooking'>
                 <Createbooking />

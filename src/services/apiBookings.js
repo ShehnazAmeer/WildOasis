@@ -144,7 +144,7 @@ export async function createBooking(newBooking) {
   const { data, error } = await supabase
     .from('bookings')
     .insert([
-      { newBooking },
+      { ...newBooking },
     ])
     .select('*');
   

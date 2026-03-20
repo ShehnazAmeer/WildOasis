@@ -10,39 +10,60 @@ import { useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 import FormError from "../../ui/FormError";
 import { useCreateBooking } from "./useCreateBooking";
+import Spinner from "../../ui/Spinner";
+import { useNavigate } from "react-router-dom";
 
 export default function Createbooking() {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    const { cabins } = useCabin();
+    const { cabins, isLoadingCabins } = useCabin();
+    const navigate= useNavigate();
     const { guests } = useGuests();
     const { register, formState, handleSubmit, reset } = useForm();
     const {createBooking,isSendingBooking} =useCreateBooking();
     const cabinIds = cabins?.map(cabin => cabin.id);
     const guestIds = guests?.map(guest => guest.id); 
-    const {errors} =formState;
+    const guestNames = guests?.map(guest => guest?.fullName); 
+    const { errors } = formState;
     
     function onSubmit(data) {
         if (!data) return;
-        createBooking({ ...data, startDate: startDate, endDate: endDate }, {
+        if (!cabins) return;
+        const curCabinObj = cabins?.find(cabin => cabin?.id === Number(data.cabinId));
+        console.log(curCabinObj);
+        createBooking({ ...data, startDate: startDate, endDate: endDate, cabinPrice: curCabinObj.regularPrice,totalPrice:curCabinObj.regularPrice+curCabinObj.discount, }, {
             onSuccess: () => {
-                reset()
+                reset()   
             }
         })
+        navigate(-1);
     }
+    if(isLoadingCabins) return <Spinner/>
 
     return (
-        <Form onSubmit={handleSubmit(onSubmit)} >
+        <Form  onSubmit={handleSubmit(onSubmit)} >
             <FormRow style='mb-1'>
                 <FormLabel htmlFor='startDate'>Start Date</FormLabel>
                 <div className="dark:bg-gray-800 dark:text-gray-200 input">
-                    <DatePicker id="startDate" placeholderText="Select Date" className="focus:outline-none focus:ring-2 focus:ring-blue-500" selected={startDate} onChange={date => setStartDate(date)} />
+                    <DatePicker
+                        id="startDate"
+                        placeholderText="Select Date" className="focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        selected={startDate}
+                        onChange={date => setStartDate(date)}
+                        disabled={isSendingBooking}
+                    />
                 </div>
             </FormRow>
             <FormRow style='mb-1'>
                 <FormLabel htmlFor='endDate'>End Date</FormLabel>
                 <div className="dark:bg-gray-800 dark:text-gray-200 input">
-                    <DatePicker id='endDate' placeholderText="Select Date" className="focus:outline-none focus:ring-2 focus:ring-blue-500" selected={endDate} onChange={date => setEndDate(date)} />
+                    <DatePicker
+                        id='endDate'
+                        placeholderText="Select Date" className="focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        selected={endDate}
+                        onChange={date => setEndDate(date)}
+                        disabled={isSendingBooking}
+                    />
                 </div>
             </FormRow>
             <FormRow style='mb-1'>
@@ -52,7 +73,8 @@ export default function Createbooking() {
                     id='numNights'
                     className="input"
                     placeholder="Number of Nights"
-                    {...register('numNights',{required:'This field is required'})}
+                    {...register('numNights', { required: 'This field is required' })}
+                    disabled={isSendingBooking}
                 />
                 {
                     errors?.numNights?.message && <FormError> {errors.numNights.message} </FormError>
@@ -68,6 +90,7 @@ export default function Createbooking() {
                     {
                     ...register('numGuests',{required:'This field is required'})
                     }
+                    disabled={isSendingBooking}
                 />
                 {
                     errors?.numGuests?.message && <FormError> {errors.numGuests.message} </FormError>
@@ -78,15 +101,16 @@ export default function Createbooking() {
                 <select
                     className="input"
                     id='cabinId'
-                    {...register('cabinId',{required:'This field is required'})}
+                    {...register('cabinId', { required: 'This field is required' })}
+                    disabled={isSendingBooking}
                 >
-                    { cabinIds?.map(id=>(
+                    { cabinIds?.map((id)=>(
                         <option
                             key={id}
                             value={id}
                             className="dark:bg-gray-800 dark:text-gray-200"
                         >
-                            {id}
+                           {id}
                         </option>) 
                     )}
                 </select>
@@ -99,15 +123,16 @@ export default function Createbooking() {
                 <select
                     className="input"
                     id='guestId'
-                    {...register('guestId',{required:'This field is required'})}
+                    {...register('guestId', { required: 'This field is required' })}
+                    disabled={isSendingBooking}
                 >
-                    { guestIds?.map(id=>(
+                    { guestIds?.map((id,i)=>(
                         <option
                             key={id}
                             value={id}
                             className="dark:bg-gray-800 dark:text-gray-200"
                         >
-                            {id}
+                            {`${id}-${guestNames[i]}`} 
                         </option>) 
                     )}
                 </select>
@@ -120,7 +145,8 @@ export default function Createbooking() {
                 <select
                     className="input"
                     id='status'
-                    {...register('status',{required:'This field is required'})}
+                    {...register('status', { required: 'This field is required' })}
+                    disabled={isSendingBooking}
                 >
                     <option
                         className="dark:bg-gray-800 dark:text-gray-200"
@@ -151,7 +177,8 @@ export default function Createbooking() {
                 <select
                     className="input"
                     id='hasBreakfast'
-                    {...register('hasBreakfast',{required:'This field is required'})} 
+                    {...register('hasBreakfast', { required: 'This field is required' })} 
+                    disabled={isSendingBooking}
                 >
                     <option className="dark:bg-gray-800 dark:text-gray-200" value={true}>Yes</option>
                     <option className="dark:bg-gray-800 dark:text-gray-200" value={false}>No</option>
@@ -165,7 +192,8 @@ export default function Createbooking() {
                 <select
                     className="input"
                     id='isPaid'
-                    {...register('isPaid',{required:'This field is required'})}
+                    {...register('isPaid', { required: 'This field is required' })}
+                    disabled={isSendingBooking}
                 >
                     <option className="dark:bg-gray-800 dark:text-gray-200" value={true} >Yes</option>
                     <option className="dark:bg-gray-800 dark:text-gray-200" value={false} >No</option>
@@ -180,14 +208,15 @@ export default function Createbooking() {
                     className="input"
                     id='observations'
                     placeholder="Enter Observations"
-                    {...register('observations',{required:'This field is required'})}
+                    {...register('observations', { required: 'This field is required' })}
+                    disabled={isSendingBooking}
                 />
                 {
                     errors?.observations?.message && <FormError> {errors.observations.message} </FormError>
                 }
             </FormRow>
             <div className="text-center">
-                <Button onClick={handleSubmit(onSubmit)} category='primary'>Create New Booking</Button>
+                <Button disabled={isLoadingCabins} onClick={handleSubmit(onSubmit)} category='primary'>Create New Booking</Button>
             </div>
         </Form>
     )

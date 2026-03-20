@@ -1,10 +1,12 @@
-import { useMutation } from "@tanstack/react-query"
-import { createBooking } from "../../services/apiBookings"
+import { useMutation} from "@tanstack/react-query"
+import { createBooking as creatingBooking } from "../../services/apiBookings"
 import toast from "react-hot-toast"
 
 export function useCreateBooking() {
     const { mutate:createBooking,isPending:isSendingBooking,error:bookingError } = useMutation({
-        mutationFn: (newBooking) => createBooking(newBooking),
+        mutationFn: (newBooking) => {
+            creatingBooking(newBooking);
+        },
         onSuccess: () => {
             toast.success('New Booking have been created');
         },
